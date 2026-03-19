@@ -1,0 +1,12 @@
+[submodule "repos/abstractgraph"]
+	path = repos/abstractgraph
+	url = https://github.com/fabriziocosta/abstractgraph.git
+[submodule "repos/abstractgraph-generative"]
+	path = repos/abstractgraph-generative
+	url = https://github.com/fabriziocosta/abstractgraph-generative.git
+[submodule "repos/abstractgraph-graphicalizer"]
+	path = repos/abstractgraph-graphicalizer
+	url = https://github.com/fabriziocosta/abstractgraph-graphicalizer.git
+[submodule "repos/abstractgraph-ml"]
+	path = repos/abstractgraph-ml
+	url = https://github.com/fabriziocosta/abstractgraph-ml.git
