@@ -9,6 +9,10 @@ Included repositories:
 - `repos/abstractgraph-graphicalizer`
 - `repos/abstractgraph-ml`
 
+See [ECOSYSTEM.md](/home/fabrizio/code/abstractgraph-ecosystem/ECOSYSTEM.md) for
+cross-repository roles, dependency direction, install order, and the submodule
+sync workflow.
+
 ## Clone
 
 Clone the superproject and all submodules in one step:
