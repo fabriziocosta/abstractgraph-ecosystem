@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/abstractgraph-logo.png" alt="AbstractGraph logo" width="220">
+  <img src="docs/assets/AG_Logo.png" alt="AbstractGraph logo" width="220">
 </p>
 
 # AbstractGraph Ecosystem
