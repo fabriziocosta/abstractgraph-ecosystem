@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/assets/abstractgraph-logo.png" alt="AbstractGraph logo" width="220">
+</p>
+
 # AbstractGraph Ecosystem
 
 AbstractGraph is an ecosystem for treating structured phenomena as graphs that
