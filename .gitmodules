@@ -4,6 +4,7 @@
 [submodule "repos/abstractgraph-generative"]
 	path = repos/abstractgraph-generative
 	url = git@github.com:fabriziocosta/abstractgraph-generative.git
+	branch = main
 [submodule "repos/abstractgraph-graphicalizer"]
 	path = repos/abstractgraph-graphicalizer
 	url = git@github.com:fabriziocosta/abstractgraph-graphicalizer.git
