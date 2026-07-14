@@ -2,15 +2,16 @@
 What makes one graph representation distinguish two graphs that another
 collapses? The answer often lies in the structures each representation chooses
 to expose: neighborhoods reveal one kind of difference, paths another, and
-cycles yet another. Comparing such choices is difficult when every method has
-its own representation and computational machinery. Abstract Graphs place
-these choices in a common space. An interpretation graph records structures in
-the base graph, and every operator maps one or more Abstract Graphs to another
-Abstract Graph. We can therefore compose structural views without giving up
-their connection to the original nodes and edges.  We study when these changes separate controlled graph pairs, whether
-the resulting distinctions are accessible to simple predictive models, and
-how much time, memory, and representation size they require. This also lets us
-separate structural collapse from information lost during pooling or bounded
-hashing. The resulting question is not which representation is universally
-best, but which structural distinctions are worth their computational cost.
+cycles yet another. Comparing these choices is difficult when every method has
+its own representation and computational machinery. Abstract Graphs place them
+in a common mapped, graph-valued space. An interpretation graph records
+structures in the base graph, so structural views can be composed while
+remaining connected to the nodes and edges that produced them. We test whether
+established representations can be reproduced faithfully, whether graph-valued
+composition changes discrimination beyond simply concatenating component
+feature vectors, and whether the responsible structures can be localized in
+the base graph. We measure these effects on predeclared, held-out structural
+contrasts and compare them with runtime, memory, and representation size. The
+aim is not a universal expressivity ranking, but a controlled account of which
+distinctions an expression exposes, where they arise, and what they cost.
 \end{abstract}

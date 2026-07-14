@@ -67,10 +67,8 @@ Different signatures do not guarantee that a task-relevant distinction is
 easy to recover. Simple supervised models test accessibility rather than state-of-the-art
 prediction: logistic or multinomial logistic regression for categories, ridge
 regression for counts, and a linear SVM as a margin-based sensitivity analysis.
-A random forest is a secondary nonlinear probe. If signatures differ but only
-the forest succeeds, information may require nonlinear interactions. If both
-the signatures and probes agree, the distinction between representational
-collapse and model failure is explicit. Feature vocabularies are fitted on
+If signatures and linear probes disagree, we report the distinction without
+attributing it to representation collapse. Feature vocabularies are fitted on
 training data only.
 
 \subsection{Controlled Structural Contrasts and Baselines}
@@ -83,17 +81,30 @@ and node- and edge-label alphabets. Each graph is paired with identifier
 permutations that must remain equivalent and with single-factor interventions
 that must first be verified as non-isomorphic under the declared attributes.
 Hard pairs additionally match node count, edge count, degree distribution,
-density, and label histogram. Candidate real-world datasets complement these
-controlled tests but do not replace them.
+density, and label histogram. Operator expressions and pair-selection rules
+are frozen before confirmatory evaluation. Generator parameter ranges and
+structural combinations held out during design test whether conclusions extend
+beyond the examples used to choose the expressions. ZINC supplies natural
+feature frequencies and scaling measurements, not causal structural contrasts.
 
 Controlled examples are useful only if the comparison methods are credible.
 Node, edge, path, cycle, graphlet, WL, and NSPDK representations are evaluated
 as expressions in the same algebra. For each method we separate decomposition,
 component identity, and aggregation. Claimed baseline equivalence is checked
 against an independent implementation using feature multiplicities,
-graph-pair decisions, and kernel or vector values where applicable. Composite
-expressions then test, for example, cycle features combined with WL or path
-features combined with pairs of neighborhoods.
+graph-pair decisions, and kernel or vector values where applicable. For every
+composite $P_2\circ P_1$, we compare four representations: each atomic
+component, lossless concatenation of their separately vectorized signatures,
+and graph-valued composition before vectorization. Concatenation is the
+critical control: a composite is scientifically informative only when its
+discrimination, localization, or cost differs from retaining the final atomic
+features side by side.
+
+For each separated pair we also retain a mapped witness: the interpretation
+nodes whose identities differ and the corresponding base nodes and edges.
+Witness correctness is checked against the known synthetic intervention. This
+tests whether the mapping supports structural localization rather than merely
+accompanying a graph-level signature.
 
 \subsection{Separating Structural Collapse from Hash Collisions}
 
@@ -124,8 +135,10 @@ survives the collision.
 An expression that distinguishes more pairs is not automatically preferable if
 the gain requires prohibitive time or memory. Every configuration records wall time, peak memory, number of interpretation
 nodes and edges, sparse nonzeros, dimensionality, serialized size, and failure
-boundaries. We report separate discrimination--runtime,
-discrimination--memory, and discrimination--size Pareto frontiers. Raw costs
+boundaries. We report separate factor-specific discrimination--runtime,
+discrimination--memory, and discrimination--size Pareto frontiers. Aggregate
+discrimination is a secondary summary because it can hide incomparable
+profiles. Raw costs
 remain primary. Dominated and negative configurations are retained because
 closure permits an expression to be valid even when its added computation
 provides no useful discrimination.

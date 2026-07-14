@@ -9,14 +9,13 @@ repeatable entry points before their outputs are used in the manuscript.
 
 ## Research-question notebooks
 
-`notebooks/` contains one validation notebook and one orchestration notebook per
-research question:
+`notebooks/` contains one orchestration notebook per research question:
 
-- `validation.ipynb`: traceability, serialization, and invariance;
-- `RQ1-structural-discrimination.ipynb`: intrinsic discrimination, probes,
-  pooling, reserved-feature controls, and hash collisions;
-- `RQ2-discrimination-complexity.ipynb`: runtime, memory, representation size,
-  and Pareto analysis.
+- `RQ1-structural-discrimination.ipynb`: baseline parity; atomic,
+  concatenated, and graph-composed discrimination; mapped witnesses; probes;
+  pooling; reserved-feature controls; and hash collisions;
+- `RQ2-discrimination-complexity.ipynb`: matched-control runtime, memory,
+  representation size, and factor-specific Pareto analysis.
 
 Each notebook must:
 

@@ -2,7 +2,7 @@ experiment_id: E01-discrimination
 research_question: RQ1
 mode: pilot
 seed: 0
-dataset_ids: [SYN-CPS-01]
+dataset_ids: [SYN-CPS-01, ZINC-250K-01]
 generator:
   callable: abstractgraph.artificial.generate_artificial_dataset
   schema_version: 1
@@ -18,6 +18,15 @@ generator:
   node_alphabet_kind: int
   edge_alphabet_kind: int
   component_specific_alphabets: true
+natural_dataset:
+  dataset_id: ZINC-250K-01
+  loader: abstractgraph_graphicalizer.chem.ZINCLoader
+  dataset_name: zinc_250k
+  purpose: structural_frequency_and_scaling_only
+  subset_size: 1000
+  subset_seed: 0
+  targets: []
+  freeze: [csv_sha256, loader_version, chemistry_toolkit_version, molecule_ids, skipped_rows, attribute_projection]
 pair_design:
   identifier_permutations_per_graph: 4
   include_attribute_order_controls: true
@@ -30,6 +39,10 @@ pair_design:
     - n_iterations
     - node_alphabet_size
     - edge_alphabet_size
+  freeze_before_confirmatory: true
+  held_out:
+    generator_parameter_ranges: true
+    structural_combinations: true
 operator_programs:
   - identity
   - node
@@ -38,17 +51,30 @@ operator_programs:
   - cycle_path_star_union
 baselines:
   - WL-01
-  - GRAPHLET-01
-  - MOTIF-01
+  - PATH-01
+  - NSPDK-01
+composition_controls:
+  - atomic_components
+  - lossless_feature_concatenation
+  - graph_valued_composition
+mapped_witnesses:
+  retain_base_nodes_and_edges: true
+  compare_with_known_intervention: true
 metrics:
   - invariant_agreement
   - one_factor_discrimination_rate
   - unique_signature_ratio
   - representation_collision_count
   - resolution_curve
+  - baseline_parity
+  - witness_intervention_overlap
+  - composition_gain_over_concatenation
   - duration_seconds
   - peak_memory_bytes
 notes: Pilot configuration; freeze exact operator serializations and confirmatory grid after smoke validation.
 outputs:
-  tables: [discrimination_by_factor, collapsed_pair_examples, baseline_parity]
-  figures: [discrimination_heatmap, expression_pair_map]
+  tables: [tab01-baseline-expressions.tex]
+  figures:
+    - fig01-structural-views.pdf
+    - fig02-discrimination-atlas.pdf
+    - fig03-composition-transitions.pdf

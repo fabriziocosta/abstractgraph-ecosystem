@@ -57,9 +57,7 @@ def begin_run(
         raise ValueError(f"Configs span multiple experiment families: {experiment_ids}")
     experiment_id = experiment_ids.pop()
     for path, config in zip(config_paths, configs):
-        declared = config.get("research_question") or (
-            "VALIDATION" if config.get("validation_requirement") else None
-        )
+        declared = config.get("research_question")
         if declared != track:
             raise ValueError(f"{path} belongs to {declared}, not {track}")
     combined_digest = hashlib.sha256("".join(digests).encode()).hexdigest()

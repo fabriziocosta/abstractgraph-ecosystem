@@ -1,8 +1,8 @@
-# Paper 1 — A closed operator algebra for programmable graph representations
+# Paper 1 — Composing mapped structural graph representations
 
 Working title:
 
-> **Abstract Graphs: A Closed Operator Algebra for Programmable Structural Representations**
+> **Abstract Graphs: Composing Mapped Structural Representations**
 
 Alternative, more conservative title:
 
@@ -11,24 +11,22 @@ Alternative, more conservative title:
 ## Paper in one paragraph
 
 An Abstract Graph (AG) couples a base graph with an interpretation graph whose
-nodes refer back to structures in the base graph. The central construction is a
-many-operator algebra closed over this representation: unary and multi-input
-operators consume AGs and produce AGs, so their expressions can be composed
-without leaving the common representational space. The operators may identify
-nodes, edges, neighborhoods, paths, cycles, graphlets, or relations between
-such objects. Composition modifies the representation; it is not intrinsically
-a refinement and carries no general promise of monotone discrimination. We
-instead measure which graph pairs each expression distinguishes or collapses,
-which distinctions are accessible to simple predictive probes, and what
-runtime, memory, and representation size it requires. Established methods such
-as path features, Weisfeiler--Lehman refinement, and NSPDK become particular
-expressions in the same algebra rather than conceptually unrelated baselines.
+nodes refer back to structures in the base graph. This common graph-valued
+representation makes heterogeneous structural operators composable without
+discarding their source mappings. The paper asks whether that construction does
+more than organize familiar feature extractors. It tests exact translations of
+established representations, compares graph-valued composition with atomic
+features and lossless feature concatenation, and checks whether mapped witnesses
+localize the structural intervention responsible for a distinction. The useful
+outcome is not a universal expressivity order, but a measured account of which
+distinctions an expression exposes and what runtime, memory, and representation
+size they require.
 
 ## Central scientific question
 
-> Which graph transformations can be expressed by a closed algebra of Abstract
-> Graph operators, how do different expressions change discrimination, and what
-> computational costs do those choices incur?
+> Does a common mapped, graph-valued operator language enable faithful baseline
+> representations and compositional distinctions beyond flat feature union,
+> and what do those distinctions cost?
 
 This question has three parts:
 
@@ -39,10 +37,11 @@ This question has three parts:
 
 ## Central claim
 
-> **Abstract Graphs form a common, closed representational space for a
-> composable family of structural operators. This makes graph representations
-> programmable and extensible, while the discrimination and computational cost
-> of each expression remain empirical, measurable properties.**
+> **A common mapped, graph-valued operator language makes structural
+> representation choices explicit and composable. Different expressions can
+> induce distinct and incomparable discrimination profiles; the experiments
+> test whether genuine composition adds localized distinctions beyond atomic
+> representations and lossless feature concatenation, and at what cost.**
 
 Here, expressive means that many structural transformations can be stated and
 combined in one language. It does not mean that composition follows an ordered
@@ -81,7 +80,8 @@ terms generated from \(\Omega\); sequential composition, addition, products,
 branches, and iteration are expression constructors rather than exits into
 incompatible intermediate representations.
 
-This closure is the primary formal property. There is no universal order
+Closure is a formal property of the construction, not an empirical result.
+There is no universal order
 \(A\preceq\omega(A)\): an operator may add, remove, aggregate, relate, or replace
 interpreted structures. Consequently, compositionality establishes
 well-formedness and expressivity, not refinement or monotonicity.
@@ -131,11 +131,9 @@ appropriate mapped graph, materializes the induced subgraphs, and records the
 mapping and provenance required by downstream operators. Analogous constructors
 support edge decompositions and global transformations.
 
-This narrow interface lowers the cost of encoding domain knowledge. It also
-makes ad hoc operator generation by an LLM technically plausible: generated
-code need only satisfy a small input/output contract to participate in the
-larger algebra. Such code must still be validated for determinism, coverage,
-invariance, resource use, and semantic correctness before use.
+This narrow interface lowers the implementation burden of encoding domain
+knowledge. Ease of authoring and automatically generated operators are not
+claims evaluated in Paper 1.
 
 ## Representation pipeline
 
@@ -306,11 +304,10 @@ Primary probes:
 - ridge regression for counts and sizes; and
 - linear SVM as a margin-based sensitivity analysis.
 
-A random forest is a secondary nonlinear probe. If a linear model fails but a
-random forest succeeds, the information may be present only through nonlinear
-feature interactions. If both fail and intrinsic signatures are equal, the
-program has genuinely collapsed the target distinction. The probes diagnose
-the representation; competitive real-world prediction remains Paper 2.
+If a linear probe fails although intrinsic signatures differ, the result is
+reported as inaccessible to that probe rather than as representation collapse.
+The probes diagnose the representation; competitive real-world prediction and
+nonlinear model selection remain Paper 2.
 
 ## Controlled synthetic benchmark
 
@@ -341,6 +338,26 @@ Pairs are admitted as discrimination targets only after an exact
 attributed-isomorphism check verifies that they are non-equivalent under the
 declared attribute projection. The detailed design is in
 [`experiments/cycle-path-star.md`](experiments/cycle-path-star.md).
+
+## Natural molecular graphs
+
+The selected natural corpus is `ZINC-250K-01`. Paper 1 loads the local
+`zinc_250k` CSV export through
+`abstractgraph_graphicalizer.chem.ZINCLoader`; cached node-count buckets use
+`abstractgraph_graphicalizer.chem.load_zinc_graph_dataset`. Dataset parsing and
+SMILES-to-NetworkX conversion therefore remain in the graphicalizer rather than
+being duplicated in experiment notebooks.
+
+ZINC complements rather than replaces the artificial generator. Synthetic
+one-factor pairs support causal statements about which distinction an operator
+exposes. ZINC tests structural-certificate frequencies, vocabulary and sparse
+representation size, hash-width behavior, and computational scaling. It does
+not supply causal evidence about a named structural intervention. Its molecular
+property columns are not prediction targets in Paper 1.
+
+Confirmatory runs must freeze the CSV checksum, graphicalizer and chemistry
+toolkit versions, skipped SMILES, attribute projection, duplicate policy,
+molecule IDs, subset seed, and subset manifest.
 
 ## Baselines as operator expressions
 
@@ -442,14 +459,17 @@ Evaluate
 b\in\{4,6,8,10,12,14,16,20,24,32\}
 \]
 
-against a collision-free certificate registry. Report:
+against an unbounded certificate registry whose equality has been validated
+against exact attributed isomorphism on the evaluated component suite. This
+registry removes bounded hashing but is not assumed to solve canonical graph
+identity beyond the declared equivalence. Report:
 
 - occupied buckets and distinct certificates;
 - identity-pair collision rate;
 - frequency-weighted collision mass;
 - head--head, head--tail, torso--tail, and tail--tail collisions;
 - intrinsic discrimination lost to hashing;
-- linear and nonlinear probe degradation;
+- linear-probe degradation;
 - feature-vector distortion;
 - provenance ambiguity; and
 - memory and runtime.
@@ -505,61 +525,50 @@ as a secondary summary. Dominated configurations and negative results must be
 reported because they reveal where added composition provides little useful
 resolution.
 
-## Validation requirements and research questions
+## Research questions
 
-Traceability and invariance are prerequisites for interpreting the experiments,
-not independent scientific questions.
-
-### V1 — Structural traceability
-
-After composition and serialization, every interpretation object must remain
-traceable to the base-graph nodes and edges from which it was derived.
-
-### V2 — Invariance
-
-Permitted node relabellings and attribute-order changes must produce equivalent
-Abstract Graphs and identical deterministic feature signatures.
+Traceability follows from the mapped Abstract Graph construction, and
+permutation equivariance is required of admissible structural operators. Their
+implementation is covered by software and serialization tests rather than
+treated as an empirical contribution.
 
 ### RQ1 — Structural discrimination
 
-How does the choice and composition of Abstract Graph operators change which
-structural distinctions are preserved, collapsed, and accessible after
-vectorization?
+Can faithful Abstract Graph expressions expose and localize structural
+distinctions that their atomic components and lossless feature concatenation do
+not?
 
 This question includes intrinsic graph-pair discrimination, accessibility to
-linear and nonlinear probes, occurrence versus incidence pooling, the reserved
+linear probes, occurrence versus incidence pooling, the reserved
 size and degree features, and the distinction between operator collapse and
 bounded-hash collisions.
 
 ### RQ2 — Discrimination--complexity trade-off
 
-What computational cost is required for the distinctions exposed by different
-operator expressions, and which configurations lie on the resulting runtime,
-memory, and representation-size Pareto frontiers?
+What computational cost is required for each factor-specific discrimination
+gain, and do graph-valued compositions occupy frontier points unavailable to
+their atomic and concatenated controls?
 
 ## Predeclared hypotheses
 
-- **V1 acceptance:** mapped links and derivation provenance remain exact after reference
-  compositions and supported serialization round trips.
-- **V2 acceptance:** deterministic reference programs achieve invariant agreement of 1.0
-  under permitted relabelling.
-- **H1:** an operator targeting a controlled structure increases discrimination
-  for that structure relative to expressions that do not expose it; for
-  example, a cycle expression distinguishes some pairs collapsed by node,
-  degree, or path-only expressions.
+- **H1:** the declared Abstract Graph translations reproduce the feature
+  multiplicities and pair decisions of independent WL, path, and NSPDK
+  implementations.
 - **H2:** discrimination profiles of alternative operator expressions are
   generally incomparable: each of two expressions can distinguish controlled
   pairs collapsed by the other.
-- **H3:** linear-probe performance is high when target structures are explicit
-  component or relation features; random forests recover some additional
-  distinctions through nonlinear interactions.
-- **H4:** increasing program depth or structural radius eventually produces
+- **H3:** at least one graph-valued composition separates a held-out structural
+  contrast that its atomic expressions and their lossless feature concatenation
+  collapse; otherwise composition is supported only as an organizational
+  abstraction.
+- **H4:** mapped witnesses for representative distinctions overlap the known
+  synthetic intervention more accurately than an unmapped graph-level
+  signature can localize it.
+- **H5:** increasing program depth or structural radius eventually produces
   diminishing discrimination gains relative to runtime and memory.
-- **H5:** raw bounded-hash collision counts grow much faster than
+- **H6:** raw bounded-hash collision counts grow much faster than
   frequency-weighted or predictive distortion under a heavy-tailed feature
   distribution.
-- **H6:** the optimal `nbits` value depends on operator-program vocabulary size
-  and cannot be selected independently of the expression.
 - **H7:** node-incidence pooling favors larger mapped structures relative to raw
   occurrence pooling, while reserved columns \(0\) and \(1\) can create
   size-based shortcuts unless graph pairs are matched on \(|V|\) and \(|E|\).
@@ -567,26 +576,146 @@ memory, and representation-size Pareto frontiers?
 These are hypotheses, not conclusions. Counterexamples and rejected
 hypotheses are reportable results.
 
-## Core figures and tables
+## Evidence plan: figures and tables
 
-1. **Operator-expression diagram:** decomposition, identity, aggregation, and
-   mapping back to the base graph.
-2. **Discrimination heatmap:** expressions by controlled graph-pair factors,
-   showing discrimination and collapse.
-3. **Expression trajectories:** utility and cost across related expressions,
-   without implying that longer expressions form a refinement chain.
-4. **Baseline equivalence table:** reference method, Abstract Graph expression,
-   parity tests, and complexity.
-5. **Probe accessibility matrix:** intrinsic discrimination, linear probe,
-   SVM, and random forest by task.
-6. **Pooling ablation:** raw structural occurrences versus summed node incidence,
-   with and without reserved node-count and degree columns.
-7. **Hash-width curves:** collisions, weighted contamination, probe performance,
-   memory, and provenance ambiguity versus `nbits`.
-8. **Pareto plots:** non-dominated programs under runtime, memory, and
-   representation-size costs.
-9. **Failure-case panels:** representative pairs collapsed by one expression
-   and separated by another, with responsible mapped subgraphs highlighted.
+The main paper should use a small sequence of artifacts that builds the
+argument. Additional diagnostics belong in the appendix rather than competing
+with the central discrimination--complexity result.
+
+### Essential main-text figures
+
+#### Figure 1 — One graph pair, several structural views
+
+- File: `fig01-structural-views.pdf`
+- LaTeX label: `fig:structural-views`
+
+Start from a predeclared matched pair with the same node count, edge count, and preferably
+degree distribution, but different cycle or attachment structure. Show the two
+base graphs, the mapped structures selected by at least two expressions, and
+their resulting interpretation graphs or signatures. One expression should
+collapse the pair and another should separate it. An additional panel should
+show that both outputs remain Abstract Graphs and can therefore be passed to a
+subsequent operator.
+
+Mark the known intervention and the mapped witness returned by the separating
+expression, and report their overlap. This figure introduces discrimination and
+tests the diagnostic value of the mapping through a concrete example. It should
+replace a generic software-pipeline diagram.
+
+#### Figure 2 — Structural discrimination atlas
+
+- File: `fig02-discrimination-atlas.pdf`
+- LaTeX label: `fig:discrimination-atlas`
+
+Construct a heatmap with operator and baseline expressions as rows and
+controlled structural interventions as columns. Columns should include cycle
+count and length, path length, ray count and length, attachment pattern,
+semantic labels, and hard pairs matched on simple graph statistics. Each cell
+reports intrinsic discrimination using collision-free structural identities.
+
+Group related expressions visually: counts, neighborhoods, paths, cycles,
+graphlets, WL, NSPDK, and composites. The intended result is a set of distinct
+and potentially incomparable discrimination profiles, not a total ranking.
+
+#### Figure 3 — Pairwise changes under composition
+
+- File: `fig03-composition-transitions.pdf`
+- LaTeX label: `fig:composition-transitions`
+
+For each pair of atomic expressions, compare the atoms, their lossless feature
+concatenation, and graph-valued composition. Classify controlled graph pairs
+into four outcomes relative to each control:
+
+- remained collapsed;
+- became distinguishable;
+- remained distinguishable; and
+- became collapsed.
+
+Display these outcomes as transition matrices or aligned stacked bars. Add one
+mapped witness of a gained distinction and one of a lost distinction, marking
+the known intervention and reporting witness overlap. This figure must make
+clear whether composition contributes anything beyond flat feature union. A
+plot showing only gains, or omitting concatenation, is insufficient.
+
+#### Figure 4 — Discrimination--complexity Pareto frontiers
+
+- File: `fig04-pareto-frontiers.pdf`
+- LaTeX label: `fig:pareto-frontiers`
+
+Use aligned panels for factor-specific intrinsic discrimination against
+runtime, peak memory, and representation size; keep any aggregate panel
+secondary. A point represents a complete configuration,
+including the expression, depth or radius, identity width, and pooling rule.
+Include atomic and concatenated controls. Use consistent colors for expression families, mark non-dominated points, and
+label a small number of interpretable cases: the cheapest baseline, a strong
+single operator, a useful composite, and an expensive configuration with little
+additional discrimination.
+
+This figure provides the primary answer to RQ2. Raw cost dimensions must remain
+separate; a composite cost score may appear only as a secondary analysis.
+
+### Conditional main-text figure
+
+#### Figure 5 — Intrinsic discrimination versus predictive accessibility
+
+- File: `fig05-predictive-accessibility.pdf`
+- LaTeX label: `fig:predictive-accessibility`
+
+Compare intrinsic discrimination with linear-probe performance, using facets
+or marker styles for occurrence versus incidence pooling and reserved features
+included versus removed. Highlight genuine representational collapse,
+linearly accessible information, information retained but inaccessible to the
+probe, and apparent success caused by node-count or degree shortcuts.
+
+Keep this figure in the main text only if it reveals a clear distinction between
+representation capacity and model accessibility. Otherwise retain one concise
+panel and move the full matrix to the appendix.
+
+### Essential main-text tables
+
+#### Table 1 — Baselines as Abstract Graph expressions
+
+- File: `tab01-baseline-expressions.tex`
+- LaTeX label: `tab:baseline-expressions`
+
+For every adjacent method, report its Abstract Graph expression, selected
+structural object, identity rule, aggregation rule, and independent parity
+test. The minimum set is node/degree features, paths, WL, and NSPDK; cycles are
+the principal domain-specific operator. Graphlets enter only if their
+translation adds a distinct comparison. A method enters the comparison only after feature multiplicities,
+graph-pair decisions, or kernel/vector values agree with an independent
+implementation under the declared tolerance.
+
+#### Table 2 — Representative expression trade-offs
+
+- File: `tab02-expression-tradeoffs.tex`
+- LaTeX label: `tab:expression-tradeoffs`
+
+Select a small, interpretable set of configurations rather than reproducing the
+full grid. Include atomic, concatenated, and graph-composed versions of the same
+views. For each, report the distinctions exposed, factor-specific discrimination,
+linear accessibility, runtime, memory, representation size, and Pareto status.
+Include simple baselines, WL, paths, cycles, NSPDK, useful composites, and at
+least one illustrative dominated configuration.
+
+### Appendix figures and tables
+
+The appendix should contain the complete operator-by-factor matrix, all probe
+metrics and hyperparameters, full pooling and reserved-feature ablations,
+complete complexity and failure-boundary tables, scaling curves by graph size
+and density, and additional mapped graph-pair examples.
+
+Hash-width curves should report raw identity collisions, frequency-weighted
+contamination, predictive distortion, memory, and provenance ambiguity against
+`nbits`. Promote this analysis to a main-text figure only if it supports a clear
+result---for example, raw collisions rising much earlier than weighted or
+predictive distortion. Otherwise it remains a robustness analysis under RQ1.
+Its canonical appendix artifact is `figA01-hash-width-curves.pdf` with LaTeX
+label `fig:appendix-hash-width`.
+
+Every generated artifact must record its source run IDs, configuration digests,
+and generating notebook. Figures and numerical tables must not be edited by
+hand after generation.
 
 ## Relationship to the claim ledger
 

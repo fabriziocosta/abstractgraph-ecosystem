@@ -9,9 +9,11 @@ To be drafted after the central claims and primary results are frozen.
 - Graph feature extraction commonly discards the explicit relationship between
   derived structural components and the original graph.
 - Abstract Graphs retain mapped subgraphs as first-class objects.
-- Operator programs transform these objects compositionally while preserving
-  provenance.
-- State the contributions using claim IDs P1-C1 through P1-C5.
+- The paper tests whether graph-valued composition adds anything beyond atomic
+  extraction and lossless feature concatenation.
+- Mapped witnesses must localize the structural intervention responsible for a
+  distinction.
+- State the contributions using claim IDs P1-C1 through P1-C7.
 
 ## 2. Related work
 
@@ -33,7 +35,8 @@ To be drafted after the central claims and primary results are frozen.
 
 - Operator contracts and typing
 - Composition
-- Representation invariants
+- Representation invariants and admissibility
+- Multiplicity, deduplication, and ordering semantics
 - Reference operator suite
 - Complexity analysis
 
@@ -41,18 +44,21 @@ To be drafted after the central claims and primary results are frozen.
 
 - Research questions and hypotheses
 - Synthetic and real graph families
-- Baselines
+- Independently validated baseline translations
+- Atomic, lossless-concatenation, and graph-composition controls
+- Frozen expression suite and held-out generator settings
 - Metrics and statistical protocol
 - Compute and reproducibility controls
 
 ## 6. Results
 
-- Reproducibility and serialization
-- Permutation invariance
-- Identity stability and collision analysis
-- Expressiveness
-- Runtime and memory scaling
-- Comparison with adjacent representations
+- RQ1: baseline parity and intrinsic structural discrimination
+- RQ1: composition versus atomic and concatenated controls
+- RQ1: mapped-witness localization
+- RQ1: predictive accessibility, pooling, and hash-width ablations
+- RQ1: comparison with adjacent representations
+- RQ2: runtime, memory, and representation-size costs
+- RQ2: factor-specific Pareto frontiers and failure boundaries
 
 ## 7. Discussion
 

@@ -1,28 +1,23 @@
-\section{Validation and Research Questions}
+\section{Research Questions}
 \label{sec:research-questions}
 
-Before comparing operator expressions, we must establish that the
-representation behaves as intended. These checks validate the experimental
-instrument; they are not the paper's scientific questions.
+The mapped construction makes structural traceability part of the
+representation, while permutation equivariance is required of admissible
+structural operators. Software and serialization tests check that the
+implementation respects these definitions; they are not empirical questions
+in this paper.
 
-\paragraph{V1: Structural traceability.}
-After composition and serialization, every interpretation object must remain
-traceable to the base-graph nodes and edges from which it was derived.
-
-\paragraph{V2: Invariance.}
-Permitted node relabellings and attribute-order changes must produce equivalent
-Abstract Graphs and identical deterministic feature signatures.
-
-Once these requirements hold, the study addresses two questions.
+The study instead addresses two questions.
 
 \paragraph{RQ1: Structural discrimination.}
-How does the choice and composition of Abstract Graph operators change which
-structural distinctions are preserved, collapsed, and accessible after
-vectorization? Intrinsic discrimination provides the first answer. Diagnostic
-probes then test accessibility, while pooling and hash-width ablations locate
-information lost after the operator expression has been evaluated.
+Can faithful Abstract Graph expressions expose and localize structural
+distinctions that their atomic components and a lossless concatenation of
+component feature vectors do not? Intrinsic discrimination provides the first
+answer. Atomic, concatenated, and graph-composed controls isolate the effect of
+composition; mapped witnesses identify the responsible base structures.
+Pooling, probe, and hash-width ablations locate later information loss.
 
 \paragraph{RQ2: Discrimination--complexity trade-off.}
-What computational cost is required for the distinctions exposed by different
-operator expressions, and which configurations lie on the resulting runtime,
-memory, and representation-size Pareto frontiers?
+What computational cost is required for each factor-specific discrimination
+gain, and do graph-valued compositions occupy frontier points unavailable to
+their atomic and concatenated controls?

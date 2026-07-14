@@ -17,12 +17,10 @@ probes:
   - logistic_regression
   - linear_svm
   - ridge_regression
-  - random_forest
 metrics: [balanced_accuracy, macro_f1, r2, mean_absolute_error]
 controls:
   fit_vocabulary_on_train_only: true
   tune_on_validation_only: true
   report_test_once: true
 outputs:
-  tables: [probe_performance, pooling_ablation, shortcut_ablation]
-  figures: [intrinsic_vs_probe, probe_accessibility_heatmap]
+  figures: [fig05-predictive-accessibility.pdf]

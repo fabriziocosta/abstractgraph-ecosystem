@@ -33,9 +33,11 @@ not contain? The operational extension point is deliberately small. A domain exp
 provide a Python function from a NetworkX graph to a concrete list of node
 groups. A constructor materializes those groups and their mappings as the
 output Abstract Graph. Disjoint exhaustive groups define a partition, while
-operators may declare overlapping or partial covers. The same contract also
-makes generated ad hoc operators possible, provided they pass validation for
-determinism, invariance, coverage, semantics, and resource use.
+operators may declare overlapping or partial covers. Custom operators are
+admissible only when their declared semantics and tests establish determinism
+and equivariance under permitted node relabellings. A callback that depends on
+node identifiers or iteration order is outside the structural operator language
+even if it satisfies the Python type signature.
 
 Concretely, the local node-decomposition interface has the shape
 \begin{verbatim}
