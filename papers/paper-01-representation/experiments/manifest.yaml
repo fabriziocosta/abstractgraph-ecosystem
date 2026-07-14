@@ -1,0 +1,53 @@
+paper: paper-01-representation
+manifest_version: 1
+status: draft
+
+research_questions:
+  - id: RQ1
+    question: Are decompositions reproducible across runs and serialization cycles?
+    claims: [P1-C1, P1-C2]
+  - id: RQ2
+    question: Are decomposition structure and identities invariant to node permutation?
+    claims: [P1-C3, P1-C4]
+  - id: RQ3
+    question: How expressive are different operator programs relative to adjacent representations?
+    claims: [P1-C2, P1-C5]
+  - id: RQ4
+    question: How do runtime and memory scale with graph size, density, attributes, and program depth?
+    claims: [P1-C5]
+
+experiment_families:
+  - id: E01-roundtrip
+    research_questions: [RQ1]
+    dataset_ids: [SYN-PERM-01]
+    config: configs/roundtrip.yaml
+    status: specified
+  - id: E02-permutation
+    research_questions: [RQ2]
+    dataset_ids: [SYN-PERM-01]
+    config: configs/permutation.yaml
+    status: specified
+  - id: E03-expressiveness
+    research_questions: [RQ3]
+    dataset_ids: []
+    config: configs/expressiveness.yaml
+    status: needs-design
+  - id: E04-scaling
+    research_questions: [RQ4]
+    dataset_ids: [SYN-SCALE-01]
+    config: configs/scaling.yaml
+    status: specified
+
+required_run_metadata:
+  - code_revision
+  - dirty_worktree
+  - environment
+  - dataset_version
+  - split_id
+  - config_digest
+  - random_seed
+  - hardware
+  - started_at
+  - duration_seconds
+  - peak_memory_bytes
+  - status

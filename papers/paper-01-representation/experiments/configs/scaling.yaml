@@ -1,0 +1,15 @@
+experiment_id: E04-scaling
+mode: smoke
+seed: 0
+dataset_id: SYN-SCALE-01
+factors:
+  node_count: [10, 100, 1000]
+  density: [sparse, medium, dense]
+  attribute_cardinality: [1, 10]
+  operator_program_depth: [1, 2, 4]
+measurements:
+  - wall_time_seconds
+  - peak_memory_bytes
+  - interpretation_node_count
+  - interpretation_edge_count
+notes: Replace categorical density with precise generation parameters.

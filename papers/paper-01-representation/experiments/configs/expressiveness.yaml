@@ -1,0 +1,12 @@
+experiment_id: E03-expressiveness
+mode: design
+seed: 0
+dataset_ids: []
+operator_programs: []
+baselines:
+  - WL-01
+  - GRAPHLET-01
+  - MOTIF-01
+  - GRAMMAR-01
+metrics: []
+notes: Define graph-pair discrimination tasks and equivalence criteria before running.
