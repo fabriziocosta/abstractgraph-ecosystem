@@ -4,13 +4,13 @@ status: draft
 
 research_questions:
   - id: RQ1
-    short_name: structural-discrimination
-    question: Does graph-valued composition expose and localize distinctions beyond faithful atomic expressions and lossless feature concatenation?
-    claims: [P1-C2, P1-C3, P1-C4, P1-C5]
+    short_name: kernel-coverage-composition
+    question: Which established graph-kernel feature maps are faithful AG programs, bounded proxies, or not currently native, and what higher-order features can composition define?
+    claims: [P1-C2, P1-C3, P1-C4, P1-C6, P1-C7]
     notebook: ../analysis/notebooks/RQ1-structural-discrimination.ipynb
   - id: RQ2
     short_name: discrimination-complexity
-    question: What does each factor-specific discrimination gain cost, and does composition add new Pareto points beyond its controls?
+    question: What does each factor-specific discrimination gain cost relative to atomic, concatenated, and flat-materialized controls?
     claims: [P1-C5]
     notebook: ../analysis/notebooks/RQ2-discrimination-complexity.ipynb
 

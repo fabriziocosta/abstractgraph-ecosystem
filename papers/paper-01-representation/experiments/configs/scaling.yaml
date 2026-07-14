@@ -25,7 +25,7 @@ utility_source: E01-discrimination
 utility_reporting:
   primary: factor_specific_discrimination
   secondary: aggregate_discrimination
-controls: [atomic_components, lossless_feature_concatenation, graph_valued_composition]
+controls: [atomic_components, lossless_feature_concatenation, flat_relational_materialization, graph_valued_composition]
 outputs:
   tables: [tab02-expression-tradeoffs.tex]
   figures: [fig04-pareto-frontiers.pdf]

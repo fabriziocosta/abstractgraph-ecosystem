@@ -1,144 +1,101 @@
 \section{Evaluating Structural Discrimination}
 \label{sec:experimental-protocol}
 
-No single accuracy score can answer this question. A representation may
-distinguish two graphs even when a chosen classifier cannot exploit the
-difference; conversely, a classifier may succeed by using graph size rather
-than the intended structure. We therefore separate three questions: does the
-representation change, can a simple model use the change, and what does the
-change cost?
+The evaluation follows the paper's argument rather than the full software
+surface. It asks whether established representations are reproduced faithfully,
+which distinctions alternative expressions preserve, what genuine composition
+changes relative to strong flat controls, whether the change can be localized,
+and what it costs. Pooling, reserved features, diagnostic probes, and bounded
+hashing are reported separately in \cref{app:supplementary-results} because
+they concern vectorization after an operator program has run.
 
-\subsection{Node and Graph Feature Construction}
+\subsection{Controlled Structural Contrasts}
 
-An operator expression still has to become a numerical representation before a
-predictive model can use it. For expression $P$, identity width $b$, and
-diagnostic model $f$, this proceeds as
-\begin{equation}
- G\xrightarrow{P}A_P(G)\xrightarrow{v_b}x_{P,b}(G)
- \xrightarrow{f}\widehat{y}.
-\end{equation}
-The native representation is node-level. For base node $v$ and feature
-bucket $j$, let
-\begin{equation}
- Z_{P,b}(G)_{v,j}=\sum_{u\in V_I}
- \mathbf{1}[v\in V_{\mu(u)}]
- \mathbf{1}[\phi_b(\mu(u))=j]a(u).
-\end{equation}
-A row records the interpreted structures in which a node occurs. Graph-level
-features are obtained by sum pooling,
-\begin{equation}
- x_{P,b}(G)=\sum_{v\in V}Z_{P,b}(G)_{v,:}.
-\end{equation}
-This creates an exact node-to-graph consistency relation, but it is not always
-a raw occurrence histogram. With unit contributions,
-\begin{equation}
- x_{P,b,j}(G)=\sum_{u\in V_I}|V_{\mu(u)}|
- \mathbf{1}[\phi_b(\mu(u))=j],
-\end{equation}
-so pooling counts node--structure incidences and weights an occurrence by its
-mapped-subgraph size. It equals the raw occurrence count if mapped components
-are singletons or if $a(u)=1/|V_{\mu(u)}|$. We therefore compare raw
-occurrences with incidence pooling.
-
-Columns zero and one are reserved:
-\begin{equation}
- Z_{v,0}=1,\qquad Z_{v,1}=\deg_G(v).
-\end{equation}
-After pooling they equal $|V|$ and $2|E|$, respectively, for undirected
-graphs and for directed total degree (in-degree plus out-degree). These
-features can create size shortcuts. All controlled results are therefore
-reported with and without them, and topology-focused pairs are matched on
-$|V|$ and $|E|$.
-
-\subsection{Intrinsic Discrimination and Predictive Accessibility}
-
-We first ask whether two graphs receive different signatures, without fitting
-a model. For verified non-equivalent pairs \(\mathcal{Q}\), intrinsic
-discrimination is
-\begin{equation}
- D_{\mathrm{int}}(P,b)=\frac{1}{|\mathcal{Q}|}
- \sum_{(G,H)\in\mathcal{Q}}
- \mathbf{1}[\Sigma_{P,b}(G)\ne\Sigma_{P,b}(H)].
-\end{equation}
-Results are stratified by the changed factor---including cycles, paths, rays,
-attachment patterns, and labels---rather than reduced to one score.
-
-Different signatures do not guarantee that a task-relevant distinction is
-easy to recover. Simple supervised models test accessibility rather than state-of-the-art
-prediction: logistic or multinomial logistic regression for categories, ridge
-regression for counts, and a linear SVM as a margin-based sensitivity analysis.
-If signatures and linear probes disagree, we report the distinction without
-attributing it to representation collapse. Feature vocabularies are fitted on
-training data only.
-
-\subsection{Controlled Structural Contrasts and Baselines}
-
-To know why a representation succeeds, we need graph pairs whose relevant
-difference is known. The primary synthetic family composes cycles, paths, and star-like rays while
-recording its generating parameters. Factors include cycle count and length,
-path length, ray count and length, attachment arrangement, expression depth,
-and node- and edge-label alphabets. Each graph is paired with identifier
-permutations that must remain equivalent and with single-factor interventions
-that must first be verified as non-isomorphic under the declared attributes.
-Hard pairs additionally match node count, edge count, degree distribution,
-density, and label histogram. Operator expressions and pair-selection rules
-are frozen before confirmatory evaluation. Generator parameter ranges and
-structural combinations held out during design test whether conclusions extend
+The primary synthetic family composes cycles, paths, and star-like rays while
+recording its generating parameters. Each graph is paired with identifier
+permutations that must remain equivalent and with verified non-isomorphic
+single-factor interventions. Hard pairs additionally match node count, edge
+count, degree distribution, density, and label histogram. Operator expressions
+and pair-selection rules are frozen before confirmatory evaluation. Held-out
+parameter ranges and structural combinations test whether conclusions extend
 beyond the examples used to choose the expressions. ZINC supplies natural
-feature frequencies and scaling measurements, not causal structural contrasts.
+structural frequencies and scaling measurements, not causal contrasts.
 
-Controlled examples are useful only if the comparison methods are credible.
-Node, edge, path, cycle, graphlet, WL, and NSPDK representations are evaluated
-as expressions in the same algebra. For each method we separate decomposition,
-component identity, and aggregation. Claimed baseline equivalence is checked
-against an independent implementation using feature multiplicities,
-graph-pair decisions, and kernel or vector values where applicable. For every
-composite $P_2\circ P_1$, we compare four representations: each atomic
-component, lossless concatenation of their separately vectorized signatures,
-and graph-valued composition before vectorization. Concatenation is the
-critical control: a composite is scientifically informative only when its
-discrimination, localization, or cost differs from retaining the final atomic
-features side by side.
-
-For each separated pair we also retain a mapped witness: the interpretation
-nodes whose identities differ and the corresponding base nodes and edges.
-Witness correctness is checked against the known synthetic intervention. This
-tests whether the mapping supports structural localization rather than merely
-accompanying a graph-level signature.
-
-\subsection{Separating Structural Collapse from Hash Collisions}
-
-Two distinct structures can disappear for different reasons. An operator may
-never expose their difference, or a later identity map may send both to the
-same bucket. With $b=\texttt{nbits}$, structural hashes occupy $B=2^b-2$ buckets because
-the first two columns are reserved. We distinguish four phenomena: operator
-collapse, certificate collapse, bounded-hash collision, and a collision that
-is statistically irrelevant to a task. Against a collision-free certificate
-registry, we report distinct certificates, occupied buckets, colliding pairs,
-frequency-weighted contamination, predictive changes, memory, and provenance
-ambiguity over several values of $b$.
-
-If certificate frequencies $p_i$ are heavy-tailed, the collision mass
+For expression $P$, let $\Sigma_P(G)$ denote its unbounded structural signature
+before bounded hashing. On verified non-equivalent pairs $\mathcal Q_f$ for
+factor $f$, intrinsic discrimination is
 \begin{equation}
- C_{\mathrm{mass}}(b)=\sum_{i<j}p_i p_j
- \mathbf{1}[h_b(c_i)=h_b(c_j)]
+ D_f(P)=\frac{1}{|\mathcal Q_f|}
+ \sum_{(G,H)\in\mathcal Q_f}
+ \mathbf{1}[\Sigma_P(G)\ne\Sigma_P(H)].
 \end{equation}
-may remain small even when raw collision counts are large. For a frequent
-identity $i$, expected relative contamination is approximately
-$ (1-p_i)/(Bp_i) $. This motivates the hypothesis that many collisions pair
-rare tail identities with more common ones and have limited aggregate effect;
-it does not assume that rare features are unimportant or that interpretability
-survives the collision.
+We report the vector $(D_f(P))_f$ rather than use one aggregate score as an
+expressivity ranking.
+
+\subsection{Graph-Kernel Coverage and Faithfulness}
+
+We audit six established feature families: vertex and edge histograms,
+shortest-path kernels \cite{Borgwardt2005ShortestPath}, graphlet kernels
+\cite{Shervashidze2009Graphlet}, WL subtree features
+\cite{Shervashidze2011WeisfeilerLehman}, and NSPDK
+\cite{Costa2010NSPDK}. Each receives one of three statuses: \emph{faithful},
+when an AG program agrees with an independent implementation; \emph{bounded
+proxy}, when the language constructs a declared restricted feature family; or
+\emph{not currently native}, when a required operation is absent.
+
+The distinction is strict. Radius-bounded graphlet enumeration is not called an
+exact graphlet kernel until sampling and enumeration semantics match. A
+shortest-path construction must encode endpoint attributes and distance rather
+than merely hash the induced path. Radius-bounded neighborhood hashing is
+recorded as a WL-like proxy because it follows the same local-identity histogram
+principle; exact WL status additionally requires parity with iterative multiset
+relabelling. NSPDK additionally requires rooted
+neighborhoods, radius, distance, ordered-pair semantics, and multiplicity. The
+faithfulness checks compare feature identities and multiplicities, graph-pair
+decisions, and kernel or vector values where applicable. Failed candidates
+remain informative coverage boundaries rather than approximate successes.
+
+\subsection{Composition and Strong Flat Controls}
+
+The operator notebooks expose two different comparisons. Additive programs run
+several decompositions on the same input. Under lossless identities and matching
+multiplicity, their vectorization should agree with concatenating the branch
+vectors; this equality is a validation test, not a compositional advantage.
+Ordered and relational programs are different: a later operator acts on mapped
+objects or relations produced earlier.
+
+We therefore compare each program with four controls:
+\begin{enumerate}
+  \item its atomic branch signatures;
+  \item lossless concatenation of those signatures;
+  \item a flat relational materialization containing the same candidate derived
+        objects and tuples available to the composed program; and
+  \item the graph-valued composition before vectorization.
+\end{enumerate}
+The third control prevents us from claiming that an interpretation graph has
+greater discrimination than an unrestricted flat encoding of the same
+information. A useful compositional result may instead be a distinction absent
+from atomic concatenation, faithful agreement with the flat materialization,
+and better localization or cost from retaining the derived objects in one
+mapped representation.
+
+\subsection{Mapped-Witness Evaluation}
+
+For every representative separation, the analysis retains the interpretation
+nodes whose identities differ and maps them to base nodes and edges. Witnesses
+are evaluated against the known synthetic intervention using node and edge
+precision, recall, and intersection-over-union. Comparisons include random
+frequency-matched subgraphs and provenance retained by the corresponding flat
+materialization. Thus the experiment tests the specificity of AG localization,
+not merely the fact that AG stores a mapping.
 
 \subsection{Discrimination--Complexity Trade-offs}
 
-An expression that distinguishes more pairs is not automatically preferable if
-the gain requires prohibitive time or memory. Every configuration records wall time, peak memory, number of interpretation
-nodes and edges, sparse nonzeros, dimensionality, serialized size, and failure
-boundaries. We report separate factor-specific discrimination--runtime,
-discrimination--memory, and discrimination--size Pareto frontiers. Aggregate
-discrimination is a secondary summary because it can hide incomparable
-profiles. Raw costs
-remain primary. Dominated and negative configurations are retained because
-closure permits an expression to be valid even when its added computation
-provides no useful discrimination.
+Every atomic, concatenated, flat-materialized, and graph-composed configuration
+is charged for end-to-end decomposition, identity construction, vectorization,
+and provenance storage. Measurements include wall time, peak memory,
+interpretation or flat-object size, sparse nonzeros, serialized size, and
+failure boundaries. We report separate factor-specific
+discrimination--runtime, discrimination--memory, and discrimination--size
+frontiers with repeated-run uncertainty. Aggregate discrimination is secondary
+because it can hide incomparable profiles.

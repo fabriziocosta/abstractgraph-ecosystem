@@ -1,23 +1,28 @@
 \section{Research Questions}
 \label{sec:research-questions}
 
-The mapped construction makes structural traceability part of the
-representation, while permutation equivariance is required of admissible
-structural operators. Software and serialization tests check that the
-implementation respects these definitions; they are not empirical questions
-in this paper.
+An Abstract Graph program specifies which subgraphs and relations become
+features. A cycle operator produces cycle features; a neighborhood-pair
+operator produces features describing pairs of neighborhoods. Demonstrating
+these expected outcomes would only restate the program definition. We evaluate
+the language on more substantive grounds: whether it can reproduce established
+graph-kernel feature maps with the correct identities and multiplicities,
+whether composition provides a practical way to define additional feature
+families, and what those programs cost to compute. These aims lead to two
+research questions.
 
-The study instead addresses two questions.
-
-\paragraph{RQ1: Structural discrimination.}
-Can faithful Abstract Graph expressions expose and localize structural
-distinctions that their atomic components and a lossless concatenation of
-component feature vectors do not? Intrinsic discrimination provides the first
-answer. Atomic, concatenated, and graph-composed controls isolate the effect of
-composition; mapped witnesses identify the responsible base structures.
-Pooling, probe, and hash-width ablations locate later information loss.
+\paragraph{RQ1: Representation coverage and composition.}
+Which established graph-kernel feature maps can be expressed faithfully as
+Abstract Graph programs, which admit only a bounded proxy, and which require
+operators not yet present in the language? For faithful constructions, we test
+feature identities and multiplicities against independent implementations.
+Composed examples then show how mapped objects define higher-order feature
+families.
 
 \paragraph{RQ2: Discrimination--complexity trade-off.}
-What computational cost is required for each factor-specific discrimination
-gain, and do graph-valued compositions occupy frontier points unavailable to
-their atomic and concatenated controls?
+What runtime, memory, and representation size are required by these feature
+programs as graph size, structural radius, enumeration bounds, and composition
+depth increase? Discrimination profiles describe the equivalence classes
+induced by representative programs, but the main comparison concerns faithful
+coverage and computational feasibility rather than rediscovering their declared
+structural bias.

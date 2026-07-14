@@ -1,17 +1,18 @@
 \begin{abstract}
-What makes one graph representation distinguish two graphs that another
-collapses? The answer often lies in the structures each representation chooses
-to expose: neighborhoods reveal one kind of difference, paths another, and
-cycles yet another. Comparing these choices is difficult when every method has
-its own representation and computational machinery. Abstract Graphs place them
-in a common mapped, graph-valued space. An interpretation graph records
-structures in the base graph, so structural views can be composed while
-remaining connected to the nodes and edges that produced them. We test whether
-established representations can be reproduced faithfully, whether graph-valued
-composition changes discrimination beyond simply concatenating component
-feature vectors, and whether the responsible structures can be localized in
-the base graph. We measure these effects on predeclared, held-out structural
-contrasts and compare them with runtime, memory, and representation size. The
-aim is not a universal expressivity ranking, but a controlled account of which
-distinctions an expression exposes, where they arise, and what they cost.
+Graph kernels differ principally in the structures they turn into features:
+labels, walks, paths, graphlets, refined neighborhoods, or relations between
+rooted subgraphs. Implementing each family as a separate method obscures both
+their common construction and the feature families obtained by combining them.
+Abstract Graphs provide a mapped, graph-valued language for this purpose. An
+interpretation graph records derived structures while retaining their source
+nodes and edges, and operators transform this representation compositionally.
+We audit whether prominent graph-kernel feature maps have faithful Abstract
+Graph programs, bounded proxies, or require operations not currently present.
+We then use additive, ordered, and relational composition to construct
+higher-order mapped features. Independent parity tests establish faithful
+correspondences; controlled graph families describe the equivalence classes
+induced by selected programs; and scaling experiments measure runtime, memory,
+and representation size. The contribution is a compositional language and an
+explicit account of its coverage and computational boundaries, not a claim
+that a program discovers structures other than those it was defined to encode.
 \end{abstract}

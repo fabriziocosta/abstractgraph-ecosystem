@@ -64,8 +64,27 @@ operators. Familiar representations can be written schematically as
    \operatorname{pair\text{-}at\text{-}distance}(d)\circ
    \operatorname{neighborhood}(r).
 \end{align}
-The WL expression must implement iterative multiset relabelling; neighborhood
-extraction alone is not equivalent to WL. The NSPDK expression must retain
+The WL subtree kernel and neighborhood decomposition share the same operational
+principle: rooted local structures receive feature identities that are counted
+in a graph-level histogram. They differ in how those identities are formed.
+Standard $h$-iteration 1-WL recursively hashes multisets of neighboring labels,
+whereas an Abstract Graph program may extract and hash the complete radius-$h$
+neighborhood. Neighborhood hashing is therefore a WL-like construction, but it
+reproduces the WL feature map exactly only when the identity operator implements
+the same iterative relabelling rule. The NSPDK expression must likewise retain
 roots, radii, root distance, pair identity, and multiplicity. Independent
-reference implementations will test these correspondences before the
-expressions are used as baselines.
+reference implementations test every claimed exact correspondence.
+
+The implemented language supports three forms of combination that must not be
+conflated. An additive program such as
+$\operatorname{add}(\operatorname{cycle},\operatorname{tree})$ runs its
+branches on the same input and unions their mapped objects. Ordered composition
+instead lets a later operator act on the objects created earlier; examples
+include extracting cycles before filtering by size, partitioning connected
+components, or connecting overlapping neighborhoods. Binary operators can
+construct relations across two decompositions through combinations,
+intersections, or paths between mapped objects. Merge, complement, selection,
+and bounded control-flow operators further modify the current interpretation
+graph. These implemented cases motivate the experimental distinction between
+side-by-side feature union and composition that creates new objects or
+relations.

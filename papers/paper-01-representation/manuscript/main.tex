@@ -34,6 +34,19 @@
 \newcommand{\mapping}{\mu}
 \newcommand{\provenance}{\pi}
 
+% Data-driven figures replace these boxes automatically when the canonical
+% artifact is copied into papers/paper-01-representation/figures/.
+\newcommand{\artifactfigure}[2]{%
+  \IfFileExists{../figures/#1}{%
+    \includegraphics[width=\linewidth]{#1}%
+  }{%
+    \fbox{\parbox[c][0.28\textheight][c]{0.94\linewidth}{%
+      \centering\textbf{Figure placeholder}\\[0.75em]
+      \texttt{#1}\\[0.75em]
+      #2}}%
+  }%
+}
+
 \title{Abstract Graphs: Composing Mapped Structural Representations}
 \author{Fabrizio Costa}
 \date{}
@@ -59,5 +72,6 @@
 
 \appendix
 \input{sections/a-formal-notation}
+\input{sections/b-supplementary-results}
 
 \end{document}

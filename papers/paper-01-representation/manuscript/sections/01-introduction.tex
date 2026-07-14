@@ -42,14 +42,20 @@ is an extension mechanism rather than evidence of scientific advantage; the
 study therefore evaluates the representations it produces, not the brevity of
 the interface.
 
-The scientific question is whether this common intermediate representation
-does more than organize familiar feature extractors. We first test exact
-translations of path, Weisfeiler--Lehman, and NSPDK representations against
-independent implementations. We then compare genuine graph-valued composition
-with both its atomic components and the lossless concatenation of their final
-feature vectors. Predeclared graph pairs and held-out generator settings reveal
-which distinctions are gained, retained, or lost; the base mappings identify
-the structures responsible for those changes. Finally, runtime, memory, and
+The scientific question is how much of the graph-kernel design space this
+language covers faithfully and what additional feature families composition can
+construct. We audit vertex and edge histograms, shortest-path, graphlet,
+Weisfeiler--Lehman, and NSPDK features against their required
+identities and multiplicities. Candidate translations are tested against
+independent implementations; restricted or missing constructions are reported
+as coverage boundaries. We then distinguish additive union, which should
+agree with lossless feature concatenation, from ordered and relational
+composition, in which later operators act on mapped objects created earlier.
+Atomic features, concatenation, and an equally informed flat materialization
+provide progressively stronger controls. Predeclared graph pairs and held-out
+generator settings reveal which distinctions are gained, retained, or lost;
+the base mappings identify the structures responsible for those changes.
+Finally, runtime, memory, and
 representation size show whether a useful distinction justifies its cost.
 Pooling, hashing, and simple linear probes remain diagnostic controls rather
 than independent claims.

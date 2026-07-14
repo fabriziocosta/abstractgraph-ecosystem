@@ -56,6 +56,7 @@ baselines:
 composition_controls:
   - atomic_components
   - lossless_feature_concatenation
+  - flat_relational_materialization
   - graph_valued_composition
 mapped_witnesses:
   retain_base_nodes_and_edges: true
@@ -68,7 +69,9 @@ metrics:
   - resolution_curve
   - baseline_parity
   - witness_intervention_overlap
-  - composition_gain_over_concatenation
+  - additive_union_concatenation_parity
+  - ordered_composition_gain_over_concatenation
+  - graph_composition_flat_materialization_parity
   - duration_seconds
   - peak_memory_bytes
 notes: Pilot configuration; freeze exact operator serializations and confirmatory grid after smoke validation.

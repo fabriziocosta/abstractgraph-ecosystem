@@ -3,7 +3,9 @@
 
 The idea of representing a graph through its parts has a long history. Graph
 kernels commonly decompose two graphs into substructures, compare those
-substructures, and aggregate the comparisons. The Weisfeiler--Lehman subtree
+substructures, and aggregate the comparisons. Prominent families count vertex
+or edge labels, shortest paths \cite{Borgwardt2005ShortestPath}, or bounded graphlets
+\cite{Shervashidze2009Graphlet}. The Weisfeiler--Lehman subtree
 kernel obtains features from successive neighborhood relabellings
 \cite{Shervashidze2011WeisfeilerLehman}; NSPDK instead counts pairs of rooted
 neighborhoods at prescribed radii and distances \cite{Costa2010NSPDK}. Both
@@ -60,7 +62,8 @@ or expressivity analysis in isolation. The proposed contribution is a common
 mapped intermediate representation in which heterogeneous structural views can
 be composed before vectorization. That proposal is only consequential if the
 translations of established methods are faithful, mapped outputs localize the
-responsible structure, or graph-valued composition differs from losslessly
-concatenating independently extracted features. The experiments are designed
+responsible structure, or ordered and relational programs expose structure
+absent from atomic feature union while agreeing with an equally informed flat
+encoding. The experiments are designed
 around those controls rather than treating closure itself as evidence of
 novelty.

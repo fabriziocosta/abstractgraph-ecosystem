@@ -1,0 +1,79 @@
+\section{Supplementary Vectorization and Robustness Analyses}
+\label{app:supplementary-results}
+
+These analyses diagnose information loss after an operator program has produced
+an Abstract Graph. They do not provide the primary evidence for compositional
+discrimination.
+
+\subsection{Node and Graph Vectorization}
+
+For base node $v$ and structural bucket $j$, the node representation is
+\begin{equation}
+ Z_{P,b}(G)_{v,j}=\sum_{u\in V_I}
+ \mathbf{1}[v\in V_{\mu(u)}]
+ \mathbf{1}[\phi_b(\mu(u))=j]a(u).
+\end{equation}
+Graph-level features sum the node rows. With unit contributions this gives
+\begin{equation}
+ x_{P,b,j}(G)=\sum_{u\in V_I}|V_{\mu(u)}|
+ \mathbf{1}[\phi_b(\mu(u))=j],
+\end{equation}
+which counts node--structure incidences rather than raw occurrences. The
+supplement compares this representation with occurrence pooling obtained by
+setting $a(u)=1/|V_{\mu(u)}|$.
+
+Columns zero and one are reserved as $Z_{v,0}=1$ and
+$Z_{v,1}=\deg_G(v)$. After sum pooling they equal $|V|$ and $2|E|$ under
+undirected or directed total degree. All diagnostic probe results therefore
+include an ablation without these columns; topology-focused synthetic pairs are
+also matched on node and edge counts.
+
+\subsection{Predictive Accessibility}
+
+Logistic regression, ridge regression, and a linear SVM test whether retained
+structural information is accessible to a simple model. Vocabularies are fitted
+on the training partition, hyperparameters on validation data, and the test
+partition is evaluated once. These probes diagnose vectorization and pooling;
+they are not competitive downstream prediction experiments.
+
+\begin{figure}[t]
+  \centering
+  \artifactfigure{fig05-predictive-accessibility.pdf}{Intrinsic discrimination
+  versus linear-probe accessibility under occurrence/incidence pooling and
+  reserved-feature ablations.}
+  \caption{Intrinsic discrimination and predictive accessibility. This figure
+  is promoted to the main paper only if it reveals a substantive and unexpected
+  difference between retained information, linear accessibility, and size-based
+  shortcuts.}
+  \label{fig:predictive-accessibility}
+\end{figure}
+
+\subsection{Bounded Structural Identities}
+
+With identity width $b$, structural hashes occupy $B=2^b-2$ buckets because
+the first two columns are reserved. We distinguish operator collapse,
+certificate equality under the declared attributed equivalence, bounded-hash
+collision, and downstream distortion. Against an unbounded certificate registry
+validated by exact attributed-isomorphism checks on the evaluated component
+suite, the analysis reports raw collisions, frequency-weighted contamination,
+linear-probe distortion, memory, and provenance ambiguity.
+
+If certificate frequencies are $p_i$, frequency-weighted collision mass is
+\begin{equation}
+ C_{\mathrm{mass}}(b)=\sum_{i<j}p_i p_j
+ \mathbf{1}[h_b(c_i)=h_b(c_j)].
+\end{equation}
+The analysis tests, rather than assumes, whether a heavy-tailed empirical
+frequency distribution makes this mass smaller than the raw identity collision
+rate.
+
+\begin{figure}[t]
+  \centering
+  \artifactfigure{figA01-hash-width-curves.pdf}{Raw certificate collisions,
+  frequency-weighted contamination, linear-probe distortion, memory, and
+  provenance ambiguity across the declared identity-width grid.}
+  \caption{Sensitivity to bounded structural-identity width. The unbounded
+  certificate registry is validated on the evaluated component suite and used
+  only as the no-bounded-hash reference.}
+  \label{fig:appendix-hash-width}
+\end{figure}

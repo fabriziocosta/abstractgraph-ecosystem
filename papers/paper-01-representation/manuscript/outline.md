@@ -53,12 +53,20 @@ To be drafted after the central claims and primary results are frozen.
 ## 6. Results
 
 - RQ1: baseline parity and intrinsic structural discrimination
-- RQ1: composition versus atomic and concatenated controls
+- RQ1: additive parity and ordered/relational composition versus atomic,
+  concatenated, and equally informed flat controls
 - RQ1: mapped-witness localization
 - RQ1: predictive accessibility, pooling, and hash-width ablations
 - RQ1: comparison with adjacent representations
 - RQ2: runtime, memory, and representation-size costs
 - RQ2: factor-specific Pareto frontiers and failure boundaries
+
+## Supplementary analyses
+
+- occurrence versus incidence pooling
+- reserved node-count and degree features
+- full linear-probe diagnostics
+- bounded hash-width sensitivity
 
 ## 7. Discussion
 

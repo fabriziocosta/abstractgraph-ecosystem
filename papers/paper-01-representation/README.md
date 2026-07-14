@@ -13,10 +13,12 @@ Alternative, more conservative title:
 An Abstract Graph (AG) couples a base graph with an interpretation graph whose
 nodes refer back to structures in the base graph. This common graph-valued
 representation makes heterogeneous structural operators composable without
-discarding their source mappings. The paper asks whether that construction does
-more than organize familiar feature extractors. It tests exact translations of
-established representations, compares graph-valued composition with atomic
-features and lossless feature concatenation, and checks whether mapped witnesses
+discarding their source mappings. The implemented language includes additive
+union, ordered transformations, filters and partitions, and binary operators
+that construct relations between mapped objects. The paper tests exact
+translations of established representations; compares these programs with
+atomic features, lossless concatenation, and an equally informed flat
+materialization; and checks whether mapped witnesses
 localize the structural intervention responsible for a distinction. The useful
 outcome is not a universal expressivity order, but a measured account of which
 distinctions an expression exposes and what runtime, memory, and representation
@@ -24,9 +26,10 @@ size they require.
 
 ## Central scientific question
 
-> Does a common mapped, graph-valued operator language enable faithful baseline
-> representations and compositional distinctions beyond flat feature union,
-> and what do those distinctions cost?
+> Which established graph-kernel feature maps can be reproduced faithfully in
+> the Abstract Graph language, which have only bounded proxies or require new
+> primitives, what higher-order features can composition define, and what do
+> those programs cost?
 
 This question has three parts:
 
@@ -39,9 +42,9 @@ This question has three parts:
 
 > **A common mapped, graph-valued operator language makes structural
 > representation choices explicit and composable. Different expressions can
-> induce distinct and incomparable discrimination profiles; the experiments
-> test whether genuine composition adds localized distinctions beyond atomic
-> representations and lossless feature concatenation, and at what cost.**
+> induce distinct and incomparable discrimination profiles. The experiments
+> separate additive union from ordered and relational composition, compare each
+> with equally informed flat controls, and measure localization and cost.**
 
 Here, expressive means that many structural transformations can be stated and
 combined in one language. It does not mean that composition follows an ordered
@@ -388,10 +391,14 @@ individual components versus relations between components.
 | NSPDK | `neighborhood(r) -> pair_at_distance(d) -> pair_identity -> histogram` | Relations between rooted local neighborhoods |
 | Composite Abstract Graph | `add(cycle, path, neighborhood, ...) -> identity` | Explicit multi-view structure |
 
-The WL expression must perform iterative multiset relabelling; ordinary
-neighborhood extraction alone is not equivalent to 1-WL. The NSPDK expression
-must retain roots, neighborhood radii, root distance, pair identity, and pair
-counts.
+The WL subtree kernel and neighborhood decomposition share an operational
+template: assign identities to rooted local structures and count them in a
+histogram. Standard 1-WL forms those identities through iterative multiset
+relabeling, while an Abstract Graph expression may hash the complete extracted
+neighborhood. We therefore treat neighborhood hashing as a WL-like proxy and
+claim exact WL reproduction only after matching the iterative relabeling rule
+and passing feature-level parity. The NSPDK expression must retain roots,
+neighborhood radii, root distance, pair identity, and pair counts.
 
 Expression implementations must be checked against independent reference
 implementations using feature multiplicities, graph-pair discrimination
@@ -532,22 +539,23 @@ permutation equivariance is required of admissible structural operators. Their
 implementation is covered by software and serialization tests rather than
 treated as an empirical contribution.
 
-### RQ1 — Structural discrimination
+### RQ1 — Representation coverage and composition
 
-Can faithful Abstract Graph expressions expose and localize structural
-distinctions that their atomic components and lossless feature concatenation do
-not?
+Which established graph-kernel feature maps can be expressed faithfully as
+Abstract Graph programs, which admit only bounded proxies, and which require
+operators not currently present? How does composition use mapped intermediate
+objects to define higher-order feature families?
 
-This question includes intrinsic graph-pair discrimination, accessibility to
-linear probes, occurrence versus incidence pooling, the reserved
-size and degree features, and the distinction between operator collapse and
-bounded-hash collisions.
+The initial audit covers vertex and edge histograms, shortest-path kernels,
+graphlet kernels, WL subtree features, and NSPDK. Every
+family is classified as faithful only after independent feature-level parity;
+otherwise it is reported as a named bounded proxy or a coverage boundary.
 
 ### RQ2 — Discrimination--complexity trade-off
 
 What computational cost is required for each factor-specific discrimination
-gain, and do graph-valued compositions occupy frontier points unavailable to
-their atomic and concatenated controls?
+gain, and where do graph-valued compositions lie relative to atomic,
+concatenated, and flat-materialized controls?
 
 ## Predeclared hypotheses
 
@@ -557,10 +565,11 @@ their atomic and concatenated controls?
 - **H2:** discrimination profiles of alternative operator expressions are
   generally incomparable: each of two expressions can distinguish controlled
   pairs collapsed by the other.
-- **H3:** at least one graph-valued composition separates a held-out structural
-  contrast that its atomic expressions and their lossless feature concatenation
-  collapse; otherwise composition is supported only as an organizational
-  abstraction.
+- **H3:** additive union agrees with lossless feature concatenation under matched
+  identities, while at least one ordered or relational composition separates a
+  held-out contrast collapsed by atomic concatenation. An equally informed flat
+  materialization should recover the same distinction; differences then concern
+  localization, organization, or cost rather than access to hidden information.
 - **H4:** mapped witnesses for representative distinctions overlap the known
   synthetic intervention more accurately than an unmapped graph-level
   signature can localize it.
@@ -622,8 +631,10 @@ and potentially incomparable discrimination profiles, not a total ranking.
 - File: `fig03-composition-transitions.pdf`
 - LaTeX label: `fig:composition-transitions`
 
-For each pair of atomic expressions, compare the atoms, their lossless feature
-concatenation, and graph-valued composition. Classify controlled graph pairs
+For each pair of atomic expressions, compare the atoms, lossless feature
+concatenation, an equally informed flat relational materialization, and
+graph-valued composition. Treat additive union as a parity test; evaluate
+ordered and relational programs separately. Classify controlled graph pairs
 into four outcomes relative to each control:
 
 - remained collapsed;
@@ -634,8 +645,9 @@ into four outcomes relative to each control:
 Display these outcomes as transition matrices or aligned stacked bars. Add one
 mapped witness of a gained distinction and one of a lost distinction, marking
 the known intervention and reporting witness overlap. This figure must make
-clear whether composition contributes anything beyond flat feature union. A
-plot showing only gains, or omitting concatenation, is insufficient.
+clear which distinctions are absent from atomic union and whether the equally
+informed flat control recovers them. A plot showing only gains, or omitting
+either flat control, is insufficient.
 
 #### Figure 4 — Discrimination--complexity Pareto frontiers
 
@@ -646,7 +658,7 @@ Use aligned panels for factor-specific intrinsic discrimination against
 runtime, peak memory, and representation size; keep any aggregate panel
 secondary. A point represents a complete configuration,
 including the expression, depth or radius, identity width, and pooling rule.
-Include atomic and concatenated controls. Use consistent colors for expression families, mark non-dominated points, and
+Include atomic, concatenated, and flat-materialized controls. Use consistent colors for expression families, mark non-dominated points, and
 label a small number of interpretable cases: the cheapest baseline, a strong
 single operator, a useful composite, and an expensive configuration with little
 additional discrimination.
@@ -654,7 +666,7 @@ additional discrimination.
 This figure provides the primary answer to RQ2. Raw cost dimensions must remain
 separate; a composite cost score may appear only as a secondary analysis.
 
-### Conditional main-text figure
+### Conditional appendix figure
 
 #### Figure 5 — Intrinsic discrimination versus predictive accessibility
 
@@ -667,9 +679,9 @@ included versus removed. Highlight genuine representational collapse,
 linearly accessible information, information retained but inaccessible to the
 probe, and apparent success caused by node-count or degree shortcuts.
 
-Keep this figure in the main text only if it reveals a clear distinction between
-representation capacity and model accessibility. Otherwise retain one concise
-panel and move the full matrix to the appendix.
+Keep this figure in the appendix. Promote one concise panel to the main text
+only if it reveals a clear and unexpected distinction between representation
+capacity and model accessibility.
 
 ### Essential main-text tables
 
@@ -692,7 +704,7 @@ implementation under the declared tolerance.
 - LaTeX label: `tab:expression-tradeoffs`
 
 Select a small, interpretable set of configurations rather than reproducing the
-full grid. Include atomic, concatenated, and graph-composed versions of the same
+full grid. Include atomic, concatenated, flat-materialized, and graph-composed versions of the same
 views. For each, report the distinctions exposed, factor-specific discrimination,
 linear accessibility, runtime, memory, representation size, and Pareto status.
 Include simple baselines, WL, paths, cycles, NSPDK, useful composites, and at
