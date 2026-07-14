@@ -1,0 +1,18 @@
+experiment_id: E01-discrimination
+research_question: RQ1
+mode: smoke
+seed: 0
+dataset_id: SYN-CPS-01
+source_configs: [configs/expressiveness.yaml, configs/accessibility.yaml]
+nbits: [4, 6, 8, 10, 12, 14, 16, 20, 24, 32]
+reference_identity: collision_free_certificate_registry
+measurements:
+  - distinct_certificate_count
+  - occupied_bucket_count
+  - colliding_identity_pair_count
+  - frequency_weighted_collision_mass
+  - predictive_distortion
+  - provenance_ambiguity
+outputs:
+  tables: [collision_summary, high_impact_collisions]
+  figures: [collision_curves, frequency_vs_contamination, performance_vs_nbits]

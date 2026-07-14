@@ -1,12 +1,36 @@
 \section{Results}
 \label{sec:results}
 
-This question cannot yet be answered responsibly: the experiments have been
-specified but their artifacts are not frozen. The results will first establish
-that non-semantic node permutations leave the representation unchanged. They
-will then ask which controlled structural changes alter each expression's
-signature, whether simple models can use those changes, and whether pooling or
-bounded hashing erases them. The final comparison will place these distinctions
-against their runtime, memory, and representation-size costs. Expressions that
-lose distinctions or lie below the Pareto frontier remain informative and will
-not be omitted.
+The experiments have been specified, but their artifacts are not yet frozen.
+The following placeholders separate validation evidence from the two scientific
+answers.
+
+\subsection{Representation Validation}
+
+\paragraph{V1: Structural traceability.}
+Report mapping validity and provenance completeness after representative unary
+and multi-input compositions and serialization round trips. State every
+operator, graph kind, or provenance field for which exact traceability fails.
+
+\paragraph{V2: Invariance.}
+Report agreement under node permutations and attribute-order perturbations,
+separately for Abstract Graph equivalence, canonical certificates, and bounded
+feature signatures. Explain every disagreement rather than averaging it away.
+
+\subsection{RQ1: Structural Discrimination}
+
+\paragraph{Answer placeholder.}
+Report intrinsic discrimination by controlled structural factor and expression,
+with representative pairs collapsed by one expression and separated by another.
+Compare these results with linear, margin-based, and nonlinear probes. Then
+locate any additional loss introduced by occurrence versus incidence pooling,
+reserved size and degree features, and bounded hashing. Do not interpret
+expression length as a refinement order.
+
+\subsection{RQ2: Discrimination--Complexity Trade-off}
+
+\paragraph{Answer placeholder.}
+Report the non-dominated configurations for runtime, peak memory, and
+representation size. Retain dominated and failed configurations where they
+show that added structural machinery produces little or no useful
+discrimination.

@@ -1,4 +1,5 @@
-experiment_id: E02-permutation
+experiment_id: E00-validation
+validation_requirement: V2
 mode: smoke
 seed: 0
 dataset_id: SYN-PERM-01
@@ -9,3 +10,6 @@ checks:
   - structural_identity_equality
   - provenance_equivariance
 notes: Attribute-preserving permutation semantics must be frozen first.
+outputs:
+  tables: [invariance_summary, invariance_failures]
+  figures: [agreement_by_expression]

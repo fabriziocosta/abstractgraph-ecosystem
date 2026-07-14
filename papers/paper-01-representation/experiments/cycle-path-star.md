@@ -2,7 +2,7 @@
 
 Dataset ID: `SYN-CPS-01`
 
-Experiment family: `E03-expressiveness`
+Experiment family: `E01-discrimination`
 
 ## Objective
 

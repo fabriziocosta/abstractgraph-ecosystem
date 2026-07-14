@@ -4,6 +4,11 @@
 versioned configuration from `configs/` and emit the metadata listed in the
 manifest.
 
+The experiment programme has three tracks: prerequisite representation
+validation, RQ1 structural discrimination, and RQ2 discrimination--complexity.
+Pooling, predictive probes, and identity collisions are analyses within RQ1,
+not separate research questions.
+
 ## Workflow
 
 1. Specify the hypothesis, dataset, baseline, metric, and expected artifact.

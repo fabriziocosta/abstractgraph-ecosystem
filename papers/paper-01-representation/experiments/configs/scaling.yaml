@@ -1,4 +1,5 @@
-experiment_id: E04-scaling
+experiment_id: E02-tradeoff
+research_question: RQ2
 mode: smoke
 seed: 0
 dataset_id: SYN-SCALE-01
@@ -13,3 +14,7 @@ measurements:
   - interpretation_node_count
   - interpretation_edge_count
 notes: Replace categorical density with precise generation parameters.
+utility_source: E01-discrimination
+outputs:
+  tables: [complexity_summary, pareto_configurations, failure_boundaries]
+  figures: [runtime_pareto, memory_pareto, representation_size_pareto]

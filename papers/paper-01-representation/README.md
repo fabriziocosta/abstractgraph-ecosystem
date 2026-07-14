@@ -505,64 +505,62 @@ as a secondary summary. Dominated configurations and negative results must be
 reported because they reveal where added composition provides little useful
 resolution.
 
-## Research questions
+## Validation requirements and research questions
 
-### RQ1 — Representation validity
+Traceability and invariance are prerequisites for interpreting the experiments,
+not independent scientific questions.
 
-Do unary and multi-input operators preserve the AG validity contracts, mapped
-links, and provenance through expression evaluation and serialization?
+### V1 — Structural traceability
 
-### RQ2 — Invariance
+After composition and serialization, every interpretation object must remain
+traceable to the base-graph nodes and edges from which it was derived.
 
-Do deterministic expressions preserve their representation signatures under
-permitted node relabellings and attribute-order changes?
+### V2 — Invariance
 
-### RQ3 — Programmable discrimination
+Permitted node relabellings and attribute-order changes must produce equivalent
+Abstract Graphs and identical deterministic feature signatures.
 
-Which controlled structural distinctions are preserved or collapsed by each
-operator expression, and how do alternative compositions modify the induced
-partition without assuming an ordered refinement relation?
+### RQ1 — Structural discrimination
 
-### RQ4 — Feature accessibility
+How does the choice and composition of Abstract Graph operators change which
+structural distinctions are preserved, collapsed, and accessible after
+vectorization?
 
-Which retained distinctions are linearly accessible, require nonlinear feature
-interactions, or remain unrecoverable by simple diagnostic probes? How do raw
-occurrence pooling, node-incidence pooling, and the reserved size/degree
-features change that accessibility?
+This question includes intrinsic graph-pair discrimination, accessibility to
+linear and nonlinear probes, occurrence versus incidence pooling, the reserved
+size and degree features, and the distinction between operator collapse and
+bounded-hash collisions.
 
-### RQ5 — Identity width
+### RQ2 — Discrimination--complexity trade-off
 
-How do hash width and empirical feature-frequency distributions affect
-identity collisions, task performance, and provenance ambiguity?
-
-### RQ6 — Computational trade-off
-
-Which program and identity configurations lie on the discrimination--runtime,
-discrimination--memory, and discrimination--size Pareto frontiers?
+What computational cost is required for the distinctions exposed by different
+operator expressions, and which configurations lie on the resulting runtime,
+memory, and representation-size Pareto frontiers?
 
 ## Predeclared hypotheses
 
-- **H1:** deterministic reference programs achieve invariant agreement of 1.0
+- **V1 acceptance:** mapped links and derivation provenance remain exact after reference
+  compositions and supported serialization round trips.
+- **V2 acceptance:** deterministic reference programs achieve invariant agreement of 1.0
   under permitted relabelling.
-- **H2:** an operator targeting a controlled structure increases discrimination
+- **H1:** an operator targeting a controlled structure increases discrimination
   for that structure relative to expressions that do not expose it; for
   example, a cycle expression distinguishes some pairs collapsed by node,
   degree, or path-only expressions.
-- **H3:** every well-typed reference expression is closed over
-  \(\mathcal{AG}\): when its operator contracts are satisfied, evaluation
-  returns a valid AG with inspectable mappings and provenance. No monotonic
-  discrimination hypothesis is attached to composition itself.
-- **H4:** linear-probe performance is high when target structures are explicit
+- **H2:** discrimination profiles of alternative operator expressions are
+  generally incomparable: each of two expressions can distinguish controlled
+  pairs collapsed by the other.
+- **H3:** linear-probe performance is high when target structures are explicit
   component or relation features; random forests recover some additional
   distinctions through nonlinear interactions.
-- **H5:** increasing program depth or structural radius eventually produces
+- **H4:** increasing program depth or structural radius eventually produces
   diminishing discrimination gains relative to runtime and memory.
-- **H6:** raw bounded-hash collision counts grow much faster than
+- **H5:** raw bounded-hash collision counts grow much faster than
   frequency-weighted or predictive distortion under a heavy-tailed feature
   distribution.
-- **H7:** the optimal `nbits` value depends on operator-program vocabulary size
+- **H6:** the optimal `nbits` value depends on operator-program vocabulary size
   and cannot be selected independently of the expression.
-- **H8:** node-incidence pooling favors larger mapped structures relative to raw
+- **H7:** node-incidence pooling favors larger mapped structures relative to raw
   occurrence pooling, while reserved columns \(0\) and \(1\) can create
   size-based shortcuts unless graph pairs are matched on \(|V|\) and \(|E|\).
 

@@ -1,4 +1,5 @@
-experiment_id: E03-expressiveness
+experiment_id: E01-discrimination
+research_question: RQ1
 mode: pilot
 seed: 0
 dataset_ids: [SYN-CPS-01]
@@ -48,3 +49,6 @@ metrics:
   - duration_seconds
   - peak_memory_bytes
 notes: Pilot configuration; freeze exact operator serializations and confirmatory grid after smoke validation.
+outputs:
+  tables: [discrimination_by_factor, collapsed_pair_examples, baseline_parity]
+  figures: [discrimination_heatmap, expression_pair_map]

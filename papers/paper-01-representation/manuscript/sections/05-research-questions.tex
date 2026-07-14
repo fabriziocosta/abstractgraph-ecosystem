@@ -1,0 +1,28 @@
+\section{Validation and Research Questions}
+\label{sec:research-questions}
+
+Before comparing operator expressions, we must establish that the
+representation behaves as intended. These checks validate the experimental
+instrument; they are not the paper's scientific questions.
+
+\paragraph{V1: Structural traceability.}
+After composition and serialization, every interpretation object must remain
+traceable to the base-graph nodes and edges from which it was derived.
+
+\paragraph{V2: Invariance.}
+Permitted node relabellings and attribute-order changes must produce equivalent
+Abstract Graphs and identical deterministic feature signatures.
+
+Once these requirements hold, the study addresses two questions.
+
+\paragraph{RQ1: Structural discrimination.}
+How does the choice and composition of Abstract Graph operators change which
+structural distinctions are preserved, collapsed, and accessible after
+vectorization? Intrinsic discrimination provides the first answer. Diagnostic
+probes then test accessibility, while pooling and hash-width ablations locate
+information lost after the operator expression has been evaluated.
+
+\paragraph{RQ2: Discrimination--complexity trade-off.}
+What computational cost is required for the distinctions exposed by different
+operator expressions, and which configurations lie on the resulting runtime,
+memory, and representation-size Pareto frontiers?

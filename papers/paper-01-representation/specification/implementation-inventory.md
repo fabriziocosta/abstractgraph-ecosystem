@@ -143,7 +143,8 @@ Use this inventory to revise `formalism.md` into a frozen decision document.
 The first decision pass should resolve the supported graph class, mapping
 validity predicate, equivalence/identity layers, provenance record, and the
 status of label/attribute/edge functions. Those decisions unblock both the
-reference-operator contracts and experiments E01 and E02.
+reference-operator contracts, validation track E00, and scientific experiments
+E01 and E02.
 
 ## Verification record
 

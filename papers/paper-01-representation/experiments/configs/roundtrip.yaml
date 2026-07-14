@@ -1,4 +1,5 @@
-experiment_id: E01-roundtrip
+experiment_id: E00-validation
+validation_requirement: V1
 mode: smoke
 seed: 0
 dataset_id: SYN-PERM-01
@@ -10,3 +11,6 @@ checks:
   - identity_equivalence
   - provenance_equivalence
 notes: Populate operator programs after the implementation inventory is complete.
+outputs:
+  tables: [traceability_summary, serialization_failures]
+  figures: [provenance_flow, traceability_by_expression]
