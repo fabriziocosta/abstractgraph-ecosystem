@@ -1,17 +1,31 @@
 \section{Operator Programs}
 \label{sec:operator-programs}
 
-An operator acts on an Abstract Graph representation,
+An operator of arity (k) acts within the space of valid Abstract Graphs,
 \begin{equation}
-  o:\abstractgraph\rightarrow\abstractgraph',
+  o:\mathcal{A}^{k}\rightharpoonup\mathcal{A},
 \end{equation}
-and an operator program is a composition
+subject to its declared input contracts. Unary and multi-input operators can
+therefore form expressions without leaving the Abstract Graph representation.
+For example, a sequential unary program is
 \begin{equation}
   P=o_k\circ\cdots\circ o_1.
 \end{equation}
+
+This closure is a well-formedness and expressivity property, not a refinement
+order: applying or composing operators modifies the representation and need
+not monotonically increase discrimination.
 
 This section will define operator contracts and typing, composition rules,
 representation invariants, the reference operator suite, and computational
 complexity. The principal invariants are mapping validity, provenance
 completeness, permutation invariance, determinism, composition closure,
 serialization round-trip preservation, and identity consistency.
+
+The operational extension point is deliberately small. A domain expert may
+provide a Python function from a NetworkX graph to a concrete list of node
+groups. A constructor materializes those groups and their mappings as the
+output Abstract Graph. Disjoint exhaustive groups define a partition, while
+operators may declare overlapping or partial covers. The same contract also
+makes generated ad hoc operators possible, provided they pass validation for
+determinism, invariance, coverage, semantics, and resource use.

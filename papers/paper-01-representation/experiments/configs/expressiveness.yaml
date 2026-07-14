@@ -1,12 +1,50 @@
 experiment_id: E03-expressiveness
-mode: design
+mode: pilot
 seed: 0
-dataset_ids: []
-operator_programs: []
+dataset_ids: [SYN-CPS-01]
+generator:
+  callable: abstractgraph.artificial.generate_artificial_dataset
+  schema_version: 1
+  num_graphs: 32
+  cycle_length: [3, 6]
+  num_cycles: [0, 2]
+  n_iterations: 2
+  path_length: [0, 4]
+  num_rays: [0, 4]
+  ray_length: [0, 3]
+  node_alphabet_size: [1, 4]
+  edge_alphabet_size: [1, 2]
+  node_alphabet_kind: int
+  edge_alphabet_kind: int
+  component_specific_alphabets: true
+pair_design:
+  identifier_permutations_per_graph: 4
+  include_attribute_order_controls: true
+  one_factor_perturbations:
+    - cycle_length
+    - num_cycles
+    - path_length
+    - num_rays
+    - ray_length
+    - n_iterations
+    - node_alphabet_size
+    - edge_alphabet_size
+operator_programs:
+  - identity
+  - node
+  - edge
+  - graphlet_radius_1
+  - cycle_path_star_union
 baselines:
   - WL-01
   - GRAPHLET-01
   - MOTIF-01
-  - GRAMMAR-01
-metrics: []
-notes: Define graph-pair discrimination tasks and equivalence criteria before running.
+metrics:
+  - invariant_agreement
+  - one_factor_discrimination_rate
+  - unique_signature_ratio
+  - representation_collision_count
+  - resolution_curve
+  - duration_seconds
+  - peak_memory_bytes
+notes: Pilot configuration; freeze exact operator serializations and confirmatory grid after smoke validation.
