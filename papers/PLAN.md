@@ -382,12 +382,12 @@ placing prior paper summaries side by side.
 
 ### Phase 0 — Programme setup
 
-- [ ] Create the notation guide and claim ledger.
-- [ ] Inventory implemented operators, identities, mappings, serialisation, and
+- [x] Create the notation guide and claim ledger.
+- [x] Inventory implemented operators, identities, mappings, serialisation, and
   provenance in `abstractgraph`.
-- [ ] Map every proposed Paper 1 claim to current implementation evidence or a
+- [x] Map every proposed Paper 1 claim to current implementation evidence or a
   missing capability.
-- [ ] Select synthetic generators and candidate real-world datasets.
+- [x] Select synthetic generators and candidate real-world datasets.
 - [x] Establish experiment and manuscript directory conventions.
 
 ### Phase 1 — Paper 1 specification and evidence
@@ -422,4 +422,6 @@ an explicit rationale.
 
 | Date | Decision | Rationale | Affected papers |
 | --- | --- | --- | --- |
+| 2026-07-14 | Selected the cycle--path--star family as the default controlled synthetic benchmark; shortlisted OGB molecular and protein-association datasets for real-world validation. | Ground-truth structural factors support direct discrimination studies, while OGB candidates provide documented construction, splits, and licences across molecular and non-molecular graph domains. | 1--3, 7 |
+| 2026-07-14 | Adopted shared notation, invariant definitions, task boundaries, and claim-evidence status rules. | Keep mathematical terms stable across the programme while leaving implementation-specific algorithms and schemas to paper specifications. | 1-8 |
 | YYYY-MM-DD | Initial eight-paper sequence adopted | Establish representation before progressively adding learning, explanation, feasibility, construction, and integration. | 1-8 |

@@ -1,0 +1,63 @@
+\section{Structural Views in Existing Graph Representations}
+\label{sec:related-work}
+
+The idea of representing a graph through its parts has a long history. Graph
+kernels commonly decompose two graphs into substructures, compare those
+substructures, and aggregate the comparisons. The Weisfeiler--Lehman subtree
+kernel obtains features from successive neighborhood relabellings
+\cite{Shervashidze2011WeisfeilerLehman}; NSPDK instead counts pairs of rooted
+neighborhoods at prescribed radii and distances \cite{Costa2010NSPDK}. Both
+methods make a structural choice before learning begins. They differ in what
+they expose, but they share the progression from decomposition to identity and
+aggregation that we use in this paper. Abstract Graphs retain the decomposition
+as a graph-valued object rather than proceeding directly to a kernel value or
+feature vector.
+
+Subgraph GNNs revisit the same choice in a neural setting. ESAN represents a
+graph as a collection of subgraphs selected by a policy and shows that this
+policy affects expressive power \cite{Bevilacqua2022ESAN}. Later analyses
+relate broad families of subgraph GNNs through their symmetries
+\cite{Frasca2022SubgraphSymmetries} and organize them into expressivity classes
+using subgraph Weisfeiler--Lehman tests \cite{Zhang2023SubgraphWL}. These works
+are the closest contemporary comparison to ours: they make subgraph selection
+a design choice rather than an incidental preprocessing step. Their primary
+object, however, is a neural architecture over a particular family of
+subgraph-selection policies. Our primary object is the structural expression
+itself. It may later feed a kernel, a linear model, or a neural model, and its
+mapped components and relations remain available for inspection.
+
+This literature also shows why discrimination should not be summarized as a
+single notion of ``more expressive.'' The ability to count a structure depends
+on both the structure and the representation \cite{Chen2020CountSubstructures}.
+Path-based methods, for example, distinguish some graph families that other
+expressive architectures collapse, yet the converse can also hold
+\cite{Graziani2024PathExpressivity}. Such incomparability supports our decision
+to report the graph pairs separated by each expression rather than assume that
+operators form a universal refinement hierarchy.
+
+Greater discrimination usually has a price. Subgraph-aware WL seeks
+subgraph-level distinctions without the cost of running a model independently
+on every subgraph \cite{Wang2022SubgraphAwareWL}; more recent work selects a
+smaller collection of subgraphs to balance expressivity and computation
+\cite{Southern2025WalkCentrality}. These studies motivate our cost measurements,
+but our comparison differs in two respects. We include non-neural structural
+expressions, and we treat runtime, memory, and representation size as separate
+objectives. This makes a Pareto frontier more informative than a single ordered
+expressivity scale.
+
+Finally, the word \emph{algebra} connects this work to research on graph-valued
+operations. Universal graph algebra studies how graph operations give rise to
+derived operations through parallel, instantiated, and sequential composition
+\cite{Wolter2023GraphAlgebras}. Compositional property-graph languages likewise
+seek graph-to-graph closure so that the result of one query can become the
+input to another \cite{Arenas2026CompositionalGraphs}. These efforts establish
+that graph-valued closure is a broader mathematical and language-design idea.
+Here it serves a different question: how does composing structural
+interpretations change the distinctions available to a learning system?
+
+Our contribution therefore does not rest on decomposition, graph operations,
+or expressivity analysis in isolation. It lies in bringing them together in a
+common intermediate representation. Heterogeneous operators remain closed over
+Abstract Graphs, interpretation nodes retain their source mappings, established
+representations can be written as expressions in the same language, and their
+effects can be compared under one discrimination--accessibility--cost protocol.

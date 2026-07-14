@@ -1,0 +1,69 @@
+\section{A Closed Algebra of Structural Operators}
+\label{sec:operator-programs}
+
+Suppose cycles expose one useful distinction and neighborhoods expose another.
+How can we combine them without translating between unrelated intermediate
+representations? We require every operator of arity $k$ to act within the
+space of Abstract Graphs,
+\begin{equation}
+  o:\mathcal{A}^{k}\to\mathcal{A}.
+\end{equation}
+Unary and multi-input operators therefore form expressions without leaving
+the Abstract Graph representation.
+For example, a sequential unary program is
+\begin{equation}
+  P=o_k\circ\cdots\circ o_1.
+\end{equation}
+
+This closure is a well-formedness and expressivity property, not a refinement
+order: applying or composing operators modifies the representation and need
+not monotonically increase discrimination.
+
+To make independently written operators agree on meaning, an operator contract
+records accepted graph kinds and attributes, effects on
+the base and interpretation graphs, materialization and coverage semantics,
+determinism, provenance behavior, failures, and computational cost. These
+contracts type and document operators; they do not qualify closure. The
+principal invariants are mapping validity,
+provenance completeness, permutation invariance, determinism, composition
+closure, serialization round-trip preservation, and identity consistency.
+
+How difficult is it to add a structural view that the existing vocabulary does
+not contain? The operational extension point is deliberately small. A domain expert may
+provide a Python function from a NetworkX graph to a concrete list of node
+groups. A constructor materializes those groups and their mappings as the
+output Abstract Graph. Disjoint exhaustive groups define a partition, while
+operators may declare overlapping or partial covers. The same contract also
+makes generated ad hoc operators possible, provided they pass validation for
+determinism, invariance, coverage, semantics, and resource use.
+
+Concretely, the local node-decomposition interface has the shape
+\begin{verbatim}
+def decompose(graph: nx.Graph) -> list[list[Hashable]]:
+    ...
+\end{verbatim}
+The wrapper applies this callback to the relevant mapped graph, materializes
+each induced subgraph, and attaches mapping and provenance metadata. Analogous
+constructors support edge decompositions and global transformations. This
+separates domain logic---which nodes belong together---from the mechanics that
+make its output composable.
+
+Can familiar representations be compared on the same terms? The reference
+vocabulary includes nodes, edges, neighborhoods, paths, cycles,
+graphlets, relations between components, filters, aggregation, and identity
+operators. Familiar representations can be written schematically as
+\begin{align}
+ P_{\mathrm{path},k}&=\operatorname{hist}\circ
+   \operatorname{id}\circ\operatorname{path}(k),\\
+ P_{\mathrm{WL},h}&=\operatorname{hist}\circ
+   \operatorname{repeat}_{h}(\operatorname{neighborhood\text{-}relabel}),\\
+ P_{\mathrm{NSPDK},r,d}&=\operatorname{hist}\circ
+   \operatorname{pair\text{-}id}\circ
+   \operatorname{pair\text{-}at\text{-}distance}(d)\circ
+   \operatorname{neighborhood}(r).
+\end{align}
+The WL expression must implement iterative multiset relabelling; neighborhood
+extraction alone is not equivalent to WL. The NSPDK expression must retain
+roots, radii, root distance, pair identity, and multiplicity. Independent
+reference implementations will test these correspondences before the
+expressions are used as baselines.

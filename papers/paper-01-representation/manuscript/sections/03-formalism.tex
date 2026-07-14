@@ -1,0 +1,48 @@
+\section{Mapped Structural Representations}
+\label{sec:formalism}
+
+To compare structural views, we first need to retain the answer to a simple
+question: which part of the original graph produced each interpreted object?
+Let
+\begin{equation}
+  \basegraph=(V,E,X_V,X_E)
+\end{equation}
+be an attributed base graph and let \(\interpgraph=(V_I,E_I)\) be an
+interpretation graph. A mapping
+\begin{equation}
+  \mapping:V_I\rightarrow\subgraphs(\basegraph)
+\end{equation}
+associates every interpretation node with a permitted subgraph of
+\(\basegraph\). The working Abstract Graph representation is the triple
+\begin{equation}
+  \abstractgraph=(\basegraph,\interpgraph,\mapping).
+\end{equation}
+
+This mapping lets us inspect a difference rather than merely observe that two
+feature vectors differ. The complete notation, equivalence relations,
+provenance definitions, operator contracts, and representation invariants are collected in
+\cref{app:formal-notation}. In particular, \(\subgraphs(\basegraph)\) denotes
+the permitted mapped-subgraph space rather than the unrestricted set of all
+NetworkX graph objects.
+
+At implementation level, the mapping is stored on interpretation nodes, so an
+AG may be viewed as the pair $ (G,I) $; the triple above makes that embedded
+mapping explicit for semantic analysis. Each interpretation node can denote a
+node-induced or edge-induced subgraph, and mappings may overlap or cover only a
+portion of the base graph when the producing contract permits it.
+
+We can now ask when an expression sees a difference. Let $P$ be an operator
+expression and let $\Sigma_{P,b}(G)$ be its
+deterministic representation signature at identity width $b$. Define
+\begin{equation}
+  G\equiv_{P,b}H
+  \quad\Longleftrightarrow\quad
+  \Sigma_{P,b}(G)=\Sigma_{P,b}(H).
+\end{equation}
+An expression collapses a pair when this equality holds and discriminates it
+otherwise. These equivalence classes provide an experimental comparison of
+expressions; they are not the definition of algebraic closure. One expression
+refines another on an evaluated graph family only when the observed signatures
+establish that relation. Losslessly concatenating two branch signatures is a
+sufficient feature-encoding condition for retaining both sets of distinctions,
+but it is not a general law of composition.

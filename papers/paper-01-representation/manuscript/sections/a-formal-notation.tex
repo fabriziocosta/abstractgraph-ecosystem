@@ -1,0 +1,228 @@
+\section{Formal Notation}
+\label{app:formal-notation}
+
+This appendix fixes the mathematical vocabulary used in this paper. Graphs are
+finite, and node identifiers are implementation handles rather than semantic
+attributes. Literal equality is denoted by \(=\); equivalence under a declared
+isomorphism or relabelling relation is denoted by \(\equiv\).
+
+\subsection{Summary of symbols}
+
+\begin{table}[ht]
+  \centering
+  \caption{Core notation for Abstract Graph representations.}
+  \label{tab:formal-notation}
+  \begin{tabular}{@{}ll@{}}
+    \toprule
+    Symbol & Meaning \\
+    \midrule
+    \(G=(V,E,X_V,X_E,\tau_G)\) & Attributed base graph and graph kind \\
+    \(G[U]\), \(G\langle F\rangle\) & Node- and edge-induced subgraphs \\
+    \(\mathcal{S}(G)\) & Permitted mapped-subgraph space of \(G\) \\
+    \(I=(V_I,E_I,X_I,R_I)\) & Interpretation graph and relation semantics \\
+    \(\mu:V_I\to\mathcal{S}(G)\) & Interpretation-node mapping \\
+    \(A=(G,I,\mu)\) & Abstract Graph representation \\
+    \(\Gamma=(\ell,a,r,\theta)\) & Execution configuration \\
+    \(s_1\equiv_q s_2\) & Attributed-subgraph equivalence \\
+    \(c_q(s)\) & Canonical structural certificate \\
+    \(\phi_{q,b}(s)\) & Structural feature identity at width \(b\) \\
+    \(\pi_G(y)\), \(\delta(y)\) & Extensional and derivation provenance \\
+    \(o\), \(P\) & Operator and operator program \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Base graphs and mapped subgraphs}
+
+\begin{definition}[Base graph]
+An attributed base graph is
+\begin{equation}
+  G=(V,E,X_V,X_E,\tau_G),
+\end{equation}
+where \(V\) and \(E\) are its node and edge sets, \(X_V\) and \(X_E\) are
+node- and edge-attribute maps, and \(\tau_G\) records the graph kind, including
+directedness. This paper considers finite simple directed and undirected
+graphs. Multigraphs and hypergraphs are outside its scope.
+\end{definition}
+
+For \(U\subseteq V\), the node-induced subgraph is
+\begin{equation}
+  G[U]=\bigl(U,E\cap(U\times U)\bigr).
+\end{equation}
+For \(F\subseteq E\), \(G\langle F\rangle\) denotes the edge-induced subgraph
+containing \(F\) and its incident nodes. Semantic attributes are restricted to
+the selected nodes and edges.
+
+\begin{definition}[Mapped-subgraph space]
+The permitted mapped-subgraph space \(\mathcal{S}(G)\) contains objects
+\begin{equation}
+  s=(V_s,E_s,X_V|_{V_s},X_E|_{E_s}),
+  \qquad V_s\subseteq V,\quad E_s\subseteq E.
+\end{equation}
+Node- and edge-induced mapped subgraphs are allowed when the producing operator
+declares its materialisation rule. Mapped subgraphs may overlap, equal the
+whole base graph, and be disconnected. Empty mappings require an explicit
+operator contract and are suppressed by default in reference decompositions.
+\end{definition}
+
+\subsection{Interpretation graphs and Abstract Graphs}
+
+\begin{definition}[Interpretation graph]
+An interpretation graph is
+\begin{equation}
+  I=(V_I,E_I,X_I,R_I),
+\end{equation}
+where every \(u\in V_I\) denotes a mapped subgraph, \(X_I\) contains derived
+attributes, and \(R_I\) declares interpretation-edge semantics. An
+interpretation edge may encode overlap, derivation, compatibility, or another
+named relation; it need not denote base-graph adjacency.
+\end{definition}
+
+\begin{definition}[Mapping and Abstract Graph]
+The total mapping
+\begin{equation}
+  \mu:V_I\longrightarrow\mathcal{S}(G)
+\end{equation}
+associates every interpretation node with exactly one mapped subgraph. It need
+not be injective or cover all of \(G\). An Abstract Graph is
+\begin{equation}
+  A=(G,I,\mu).
+\end{equation}
+\end{definition}
+
+Construction functions remain separate from the semantic triple. When
+relevant, the execution configuration is
+\begin{equation}
+  \Gamma=(\ell,a,r,\theta),
+\end{equation}
+where \(\ell\) assigns labels or identities, \(a\) computes derived
+attributes, \(r\) constructs interpretation relations, and \(\theta\) contains
+their parameters. An implementation state may be written \((A,\Gamma)\).
+
+\subsection{Equivalence and structural identity}
+
+A permitted relabelling is a bijection \(\rho:V\to V'\) preserving graph kind,
+adjacency or arc direction, and all attributes selected as semantic. Let \(q\)
+denote that attribute projection.
+
+\begin{definition}[Mapped-subgraph equivalence]
+Two mapped subgraphs are equivalent, written \(s_1\equiv_q s_2\), if an
+isomorphism between them preserves directedness and all node and edge
+attributes selected by \(q\).
+\end{definition}
+
+Let \(c_q(s)\) be a canonical certificate and \(h_b\) a bounded hash of width
+\(b\). The structural feature identity is
+\begin{equation}
+  \phi_{q,b}(s)=h_b\bigl(c_q(s)\bigr).
+\end{equation}
+The intended certificate property is
+\begin{equation}
+  s_1\equiv_q s_2 \Longrightarrow c_q(s_1)=c_q(s_2).
+\end{equation}
+The converse depends on the canonicalisation method. Equality of bounded
+feature identities does not prove equivalence because hashing may introduce
+collisions. Identity experiments therefore report \(q\), \(b\), the
+certificate and hash algorithms, and the collision policy.
+
+\begin{definition}[Abstract Graph equivalence]
+Let \(A=(G,I,\mu)\) and \(A'=(G',I',\mu')\). We write
+\begin{equation}
+  A\equiv_{q,R_I}A'
+\end{equation}
+if there exist graph isomorphisms \(\rho:G\to G'\) and \(\eta:I\to I'\) that
+preserve the attributes selected by \(q\), preserve declared interpretation
+relations, and make the mapping commute:
+\begin{equation}
+  \rho\bigl(\mu(u)\bigr)=\mu'\bigl(\eta(u)\bigr)
+  \qquad\text{for every }u\in V_I.
+\end{equation}
+\end{definition}
+
+\subsection{Provenance}
+
+\begin{definition}[Extensional provenance]
+For a derived object \(y\), base-graph provenance is
+\begin{equation}
+  \pi_G(y)=(V_y,E_y),
+  \qquad V_y\subseteq V,\quad E_y\subseteq E.
+\end{equation}
+For an interpretation node \(u\), provenance agrees with the mapping:
+\begin{equation}
+  \pi_G(u)=\bigl(V_{\mu(u)},E_{\mu(u)}\bigr).
+\end{equation}
+\end{definition}
+
+\begin{definition}[Derivation provenance]
+Derivation provenance is
+\begin{equation}
+  \delta(y)=(o,\theta,Y_{\mathrm{parent}}),
+\end{equation}
+where \(o\) is the producing operator, \(\theta\) is its serialized parameter
+state, and \(Y_{\mathrm{parent}}\) is the parent collection declared by the
+operator contract.
+\end{definition}
+
+Extensional provenance records where an object originates; derivation
+provenance records how it was produced. Neither is model attribution, which
+assigns relevance rather than structural origin.
+
+\subsection{Operators and programs}
+
+\begin{definition}[Typed operator]
+An operator of arity $k$ is a typed function
+\begin{equation}
+  o:\prod_{j=1}^{k}\mathcal{A}_{C_{\mathrm{in},j}}\to
+    \mathcal{A}_{C_{\mathrm{out}}},
+\end{equation}
+where \(\mathcal{A}_C\) is the set of valid Abstract Graphs satisfying
+contract \(C\). A contract declares accepted graph kinds and attributes,
+read/write effects on \(G\), \(I\), and \(\mu\), materialisation and coverage,
+determinism, relation and provenance semantics, failure conditions, and
+complexity.
+\end{definition}
+
+The operator family is closed over Abstract Graphs by construction. For
+type-compatible unary operators, a sequential program is
+\begin{equation}
+  P=o_k\circ\cdots\circ o_1,
+  \qquad P(A)=o_k\bigl(\cdots o_2(o_1(A))\cdots\bigr).
+\end{equation}
+Compatibility requires the output contract of \(o_i\) to imply the input
+contract of \(o_{i+1}\). Programs may additionally use declared additive,
+product, conditional, or bounded iterative composition. A serialized operator
+program is denoted by \(\sigma_P(P)\). Closure provides composability and
+well-formed outputs; it does not imply refinement of the input representation
+or monotone growth in discrimination.
+
+\subsection{Representation invariants}
+\label{app:invariants}
+
+The following invariants define valid evidence in this paper.
+
+\begin{enumerate}
+  \item \textbf{Mapping validity.} Every node and edge in every \(\mu(u)\)
+    belongs to \(G\), with matching semantic attributes.
+  \item \textbf{Interpretation totality.} \(\mu(u)\) is defined for every
+    \(u\in V_I\).
+  \item \textbf{Provenance completeness.} \(\pi_G(y)\) contains all and only
+    the base nodes and edges required by the semantics of \(y\), and
+    \(\delta(y)\) identifies its derivation when required.
+  \item \textbf{Permutation invariance.} For permitted \(\rho\) and
+    deterministic \(P\),
+    \begin{equation}
+      P\bigl(\rho(A)\bigr)\equiv_{q,R_I}\rho\bigl(P(A)\bigr).
+    \end{equation}
+  \item \textbf{Determinism.} Fixed input, configuration, program, software
+    version, and random state produce equivalent outputs and identities.
+  \item \textbf{Composition closure.} Adjacent operators have compatible
+    contracts, and successful outputs satisfy their output contracts.
+  \item \textbf{Identity consistency.} If \(s_1\equiv_q s_2\), their
+    canonical certificates and configured feature identities are equal.
+  \item \textbf{Serialization round trip.} For every supported serializer
+    \(\sigma\) and deserializer \(\sigma^{-1}\),
+    \begin{equation}
+      \sigma^{-1}\bigl(\sigma(z)\bigr)\equiv z
+    \end{equation}
+    under the declared equivalence for programs or representation states.
+\end{enumerate}

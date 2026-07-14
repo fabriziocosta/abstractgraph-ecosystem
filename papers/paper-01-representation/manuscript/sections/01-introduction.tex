@@ -1,0 +1,56 @@
+\section{Introduction}
+\label{sec:introduction}
+
+Why do two graph representations disagree about whether a pair of graphs is
+different? Consider two graphs with the same numbers of nodes and edges and
+the same degree distribution, but with different cycle structure. A degree
+representation collapses the pair. A cycle representation need not. Neither
+answer is intrinsically wrong: each follows from what the representation was
+built to see.
+
+This example raises the question that motivates the paper: can structural
+visibility itself become a programmable choice? Existing methods offer many
+useful views---neighborhoods, paths, graphlets, rooted pairs---but each usually
+arrives with its own notation, implementation, and feature construction. It is
+then hard to ask what changes when two views are combined, or to attribute a
+new distinction to the structure that exposed it.
+
+Abstract Graphs give us a way to pose that comparison in one language. An
+Abstract Graph couples a base graph to an interpretation graph whose nodes
+denote mapped structures in the base graph. A cycle, for example, can remain an
+object in the interpretation graph while retaining the concrete nodes and
+edges that form it. Operators act within this space:
+\begin{equation}
+  o:\mathcal{A}^{k}\to\mathcal{A}.
+\end{equation}
+Every output is therefore available to another operator. Neighborhoods can be
+paired, cycles can be combined with paths, and domain-specific decompositions
+can participate in the same expressions.
+
+What does this closure buy us? It buys composability, not refinement. Applying
+another operator does not necessarily produce a finer representation, and a
+longer expression need not distinguish more graphs. It may expose a new
+structure, aggregate an old one, or replace one structural view with another.
+Whether the resulting expression separates a graph pair is something to
+measure, not something guaranteed by the algebra.
+
+The next question is whether adding a new structural view requires designing a
+new framework. Here the practical answer is deliberately modest. A domain
+expert supplies a function that groups the nodes of a NetworkX graph. The
+library turns those groups into mapped interpretation nodes, after which the
+new operator composes like any other. The groups may form a partition or,
+where appropriate, an overlapping cover. Such a small interface also makes it
+possible to generate candidate operators automatically, including with a
+language model, while leaving their invariance, semantics, and computational
+behavior to be tested explicitly.
+
+These ideas lead to three empirical questions. Which graph pairs does each
+operator expression distinguish? Are those distinctions directly usable by a
+simple classifier or regressor? And how much computation is required to obtain
+them? We answer these questions with controlled graph families, including
+matched pairs that differ in cycles, paths, rays, attachments, or labels. Path
+features, Weisfeiler--Lehman features, and NSPDK serve as expressions in the
+same language. We then compare intrinsic discrimination, predictive
+accessibility, and computational cost, while isolating information lost through
+pooling and bounded hashing. This turns representation design into an
+observable trade-off between structural discrimination and complexity.

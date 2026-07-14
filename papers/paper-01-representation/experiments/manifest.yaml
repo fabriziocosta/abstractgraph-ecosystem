@@ -29,9 +29,9 @@ experiment_families:
     status: specified
   - id: E03-expressiveness
     research_questions: [RQ3]
-    dataset_ids: []
+    dataset_ids: [SYN-CPS-01]
     config: configs/expressiveness.yaml
-    status: needs-design
+    status: specified
   - id: E04-scaling
     research_questions: [RQ4]
     dataset_ids: [SYN-SCALE-01]
