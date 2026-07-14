@@ -8,6 +8,7 @@ version, processing, graph construction, and split are recorded here.
 | SYN-CPS-01 | Synthetic | `abstractgraph.artificial.generate_artificial_dataset`, schema version 1 | Project-generated | Parameterised cycle--path--star compositions with ground-truth component metadata | Default controlled study of representation discrimination and operator-program expressiveness | Seed/config manifest to create | 1--5 | Selected |
 | SYN-PERM-01 | Synthetic | SYN-CPS-01 plus identifier and attribute-order perturbations | Project-generated | Relabelled copies of frozen cycle--path--star instances | Permutation invariance and identity stability | Permutation manifest to create | 1 | Selected |
 | SYN-SCALE-01 | Synthetic | SYN-CPS-01 plus simple random graph families | Project-generated | Factorial variation of graph size, density, alphabet size, and program depth | Runtime and memory scaling | Scaling manifest to create | 1 | Selected |
+| ZINC-250K-01 | Molecules | `zinc_250k.csv` from the Aspuru-Guzik `chemical_vae` ZINC export; local loader `abstractgraph_graphicalizer.chem.ZINCLoader` | Source terms and immutable checksum to record before confirmatory use | Molecules converted from SMILES to atom/bond NetworkX graphs; atom and bond attributes retained under a frozen projection | Natural-graph structural diversity, representation vocabulary, hash-frequency, and scaling analyses; molecular targets are out of scope | Stable molecule IDs plus a seeded analysis subset manifest to create | 1--3 | Selected |
 | OGB-MOLHIV-CAND | Molecules | [`ogbg-molhiv`, OGB package >=1.1.1](https://ogb.stanford.edu/docs/graphprop/) | MIT | Molecules represented as atom/bond graphs with OGB atom and bond features | Real-world structural diversity and runtime validation; predictive labels are out of scope for Paper 1 | Official scaffold split; immutable local instance manifest required | 1--3 | Candidate |
 | OGB-PPA-CAND | Protein association networks | [`ogbg-ppa`, OGB package >=1.1.1](https://ogb.stanford.edu/docs/graphprop/) | CC0 | Undirected protein-association neighborhoods with seven-dimensional edge features | Non-molecular topology, density, and scaling validation; predictive labels are out of scope for Paper 1 | Official species split; predeclared stratified subset permitted for Paper 1 compute | 1--3, 7 | Candidate |
 
@@ -46,9 +47,32 @@ The generator implementation and tests live in:
 The frozen experimental design is documented in
 [`../paper-01-representation/experiments/cycle-path-star.md`](../paper-01-representation/experiments/cycle-path-star.md).
 
+## Selected natural family: ZINC-250K-01
+
+ZINC-250K-01 provides naturally occurring molecular graph structure without
+changing Paper 1 into a molecular-property benchmark. The ecosystem loader is
+`abstractgraph_graphicalizer.chem.ZINCLoader`; its default dataset name is
+`zinc_250k`, and it converts the `smiles` column into atom/bond NetworkX graphs.
+The cached corpus utilities can bucket graphs by node count for controlled
+scaling runs.
+
+Paper 1 uses ZINC for:
+
+- the empirical frequency distribution of structural certificates;
+- sensitivity of collision mass and provenance ambiguity to `nbits`;
+- expression vocabulary size and sparse representation size;
+- naturally occurring collapsed/separated graph pairs; and
+- runtime and peak-memory measurements over molecular graph sizes.
+
+The `logP`, `qed`, and `SAS` columns are not prediction targets in Paper 1.
+Before confirmatory use, freeze the CSV checksum, loader and chemistry-toolkit
+versions, skipped/invalid SMILES, attribute projection, molecule IDs, duplicate
+policy, and seeded subset manifest. Synthetic pairs remain the source of causal
+claims because their changed structural factor is known.
+
 ## Real-world selection gate
 
-`OGB-MOLHIV-CAND` and `OGB-PPA-CAND` are candidates, not approved final
+`OGB-MOLHIV-CAND` and `OGB-PPA-CAND` remain sensitivity candidates, not approved final
 datasets. They were shortlisted because OGB publishes graph construction,
 features, standard splits, package requirements, and explicit licences. Before
 promotion to `Selected`, record:

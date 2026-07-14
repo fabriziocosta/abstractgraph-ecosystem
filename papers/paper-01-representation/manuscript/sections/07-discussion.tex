@@ -1,33 +1,33 @@
 \section{Discussion}
 \label{sec:discussion}
 
-The principal distinction of this work is between closure and discrimination.
-Closure says that a well-typed expression remains in the AG space. It gives a
-stable substrate for composition, serialization, inspection, and extension.
-It does not say that operators progressively refine a representation. A cycle
-operator may expose a distinction collapsed by neighborhoods; an aggregation
-or filter may remove one exposed earlier; a valid composite may simply encode
-a different structural view. The empirical partitions and Pareto frontiers
-make these consequences observable without turning them into algebraic axioms.
+Closure is a premise of the representation, not a result. Its scientific value
+depends on what graph-valued composition enables beyond independent feature
+extraction. An operator may expose a new structure, aggregate one exposed
+earlier, or replace one view with another; it need not progressively refine a
+representation. Comparisons with lossless feature concatenation determine
+whether observed gains arise from composition itself or merely from retaining
+more features. Empirical partitions and factor-specific Pareto frontiers make
+these consequences observable without turning them into algebraic axioms.
 
-Mapped structure also makes comparisons more diagnostic. When two signatures
-differ, the responsible interpretation nodes can be traced to concrete base
-subgraphs. Conversely, identity width can collapse distinct certificates even
-when the operator expression retained them. Separating operator, certificate,
-hash, aggregation, and model effects is therefore essential.
+Mapped structure matters only if it improves diagnosis. We therefore require a
+mapped witness for each representative distinction and test its overlap with
+the known intervention. When two signatures differ, the responsible
+interpretation nodes can then be traced to concrete base subgraphs. Conversely,
+identity width can collapse distinct certificates even when an operator has
+retained them. Separating operator, certificate, hash, aggregation, and model
+effects remains essential.
 
-The minimal decomposition interface is important for adoption. Domain experts
-can contribute a structural grouping without implementing the surrounding
-representation machinery, and independently developed operators remain
-composable. The same property creates an opportunity for automatically
-generated operators. It does not make arbitrary generated code trustworthy:
-contracts, property tests, sandboxing, and semantic review remain necessary,
-especially when a callback is stochastic, expensive, label-dependent, or
-returns malformed groups.
+The minimal decomposition interface is an implementation advantage, not one of
+the paper's evaluated scientific claims. Domain experts can contribute a
+structural grouping without implementing the surrounding representation
+machinery, but ease of authoring and automatically generated operators require
+separate studies.
 
-Threats to validity include the selected graph families, canonicalization and
-attribute equivalence, imperfect baseline reproduction, probe sensitivity,
-and hardware-dependent costs. Synthetic controls establish mechanism but not
-real-world usefulness; real datasets add ecological validity but rarely reveal
-the exact structural distinction responsible for performance. Competitive
+Threats to validity include the selected graph families, expression-selection
+bias, canonicalization and attributed equivalence, imperfect baseline
+reproduction, duplicate and multiplicity semantics, probe sensitivity, and
+hardware-dependent costs. Synthetic controls establish mechanism but not
+real-world usefulness. ZINC tests natural structural frequencies and scaling,
+but it does not identify a causal structural distinction. Competitive
 predictive learning and learned explanations remain subjects of later work.

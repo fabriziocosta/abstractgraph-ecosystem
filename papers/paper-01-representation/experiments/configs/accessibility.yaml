@@ -1,0 +1,26 @@
+experiment_id: E01-discrimination
+research_question: RQ1
+mode: smoke
+seed: 0
+dataset_id: SYN-CPS-01
+source_config: configs/expressiveness.yaml
+split:
+  strategy: stratified_group
+  train_fraction: 0.6
+  validation_fraction: 0.2
+  test_fraction: 0.2
+  group_key: generator_family_id
+representations:
+  pooling: [occurrence, incidence]
+  reserved_features: [include, exclude]
+probes:
+  - logistic_regression
+  - linear_svm
+  - ridge_regression
+metrics: [balanced_accuracy, macro_f1, r2, mean_absolute_error]
+controls:
+  fit_vocabulary_on_train_only: true
+  tune_on_validation_only: true
+  report_test_once: true
+outputs:
+  figures: [fig05-predictive-accessibility.pdf]

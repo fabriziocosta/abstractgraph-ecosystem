@@ -27,30 +27,29 @@ Every output is therefore available to another operator. Neighborhoods can be
 paired, cycles can be combined with paths, and domain-specific decompositions
 can participate in the same expressions.
 
-What does this closure buy us? It buys composability, not refinement. Applying
+Closure is the construction that makes the comparison possible, not an
+empirical finding. It provides composability, not refinement. Applying
 another operator does not necessarily produce a finer representation, and a
 longer expression need not distinguish more graphs. It may expose a new
 structure, aggregate an old one, or replace one structural view with another.
 Whether the resulting expression separates a graph pair is something to
 measure, not something guaranteed by the algebra.
 
-The next question is whether adding a new structural view requires designing a
-new framework. Here the practical answer is deliberately modest. A domain
-expert supplies a function that groups the nodes of a NetworkX graph. The
-library turns those groups into mapped interpretation nodes, after which the
-new operator composes like any other. The groups may form a partition or,
-where appropriate, an overlapping cover. Such a small interface also makes it
-possible to generate candidate operators automatically, including with a
-language model, while leaving their invariance, semantics, and computational
-behavior to be tested explicitly.
+Adding a structural view requires only a function that groups the nodes of a
+NetworkX graph. The library turns those groups into mapped interpretation
+nodes, after which the operator can participate in the same expressions. This
+is an extension mechanism rather than evidence of scientific advantage; the
+study therefore evaluates the representations it produces, not the brevity of
+the interface.
 
-These ideas lead to three empirical questions. Which graph pairs does each
-operator expression distinguish? Are those distinctions directly usable by a
-simple classifier or regressor? And how much computation is required to obtain
-them? We answer these questions with controlled graph families, including
-matched pairs that differ in cycles, paths, rays, attachments, or labels. Path
-features, Weisfeiler--Lehman features, and NSPDK serve as expressions in the
-same language. We then compare intrinsic discrimination, predictive
-accessibility, and computational cost, while isolating information lost through
-pooling and bounded hashing. This turns representation design into an
-observable trade-off between structural discrimination and complexity.
+The scientific question is whether this common intermediate representation
+does more than organize familiar feature extractors. We first test exact
+translations of path, Weisfeiler--Lehman, and NSPDK representations against
+independent implementations. We then compare genuine graph-valued composition
+with both its atomic components and the lossless concatenation of their final
+feature vectors. Predeclared graph pairs and held-out generator settings reveal
+which distinctions are gained, retained, or lost; the base mappings identify
+the structures responsible for those changes. Finally, runtime, memory, and
+representation size show whether a useful distinction justifies its cost.
+Pooling, hashing, and simple linear probes remain diagnostic controls rather
+than independent claims.

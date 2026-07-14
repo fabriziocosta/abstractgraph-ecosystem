@@ -1,0 +1,17 @@
+experiment_id: E01-discrimination
+research_question: RQ1
+mode: smoke
+seed: 0
+dataset_ids: [SYN-CPS-01, ZINC-250K-01]
+source_configs: [configs/expressiveness.yaml, configs/accessibility.yaml]
+nbits: [4, 6, 8, 10, 12, 14, 16, 20, 24, 32]
+reference_identity: unbounded_certificate_registry_validated_on_evaluated_suite
+measurements:
+  - distinct_certificate_count
+  - occupied_bucket_count
+  - colliding_identity_pair_count
+  - frequency_weighted_collision_mass
+  - predictive_distortion
+  - provenance_ambiguity
+outputs:
+  figures: [figA01-hash-width-curves.pdf]

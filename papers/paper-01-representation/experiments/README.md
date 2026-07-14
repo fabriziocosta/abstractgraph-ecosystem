@@ -4,6 +4,12 @@
 versioned configuration from `configs/` and emit the metadata listed in the
 manifest.
 
+The experiment programme has two tracks: RQ1 structural discrimination and RQ2
+discrimination--complexity. Pooling, predictive probes, and identity collisions
+are analyses within RQ1, not separate research questions. Mapping,
+serialization, and invariance checks belong to the package test suite rather
+than the empirical manifest.
+
 ## Workflow
 
 1. Specify the hypothesis, dataset, baseline, metric, and expected artifact.

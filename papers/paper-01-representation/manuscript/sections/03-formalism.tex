@@ -46,3 +46,11 @@ refines another on an evaluated graph family only when the observed signatures
 establish that relation. Losslessly concatenating two branch signatures is a
 sufficient feature-encoding condition for retaining both sets of distinctions,
 but it is not a general law of composition.
+
+An expression also fixes multiplicity semantics. Interpretation nodes are a
+multiset of mapped occurrences unless an operator explicitly declares
+deduplication under the attributed-subgraph equivalence. Their order is not
+semantic, whereas repeated occurrences and overlapping mappings may be. Each
+baseline translation therefore declares whether it counts occurrences, unique
+certificates, rooted instances, or ordered pairs. Without this declaration,
+apparent differences in discrimination could be artifacts of bookkeeping.

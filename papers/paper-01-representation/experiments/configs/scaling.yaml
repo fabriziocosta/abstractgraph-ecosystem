@@ -1,7 +1,8 @@
-experiment_id: E04-scaling
+experiment_id: E02-tradeoff
+research_question: RQ2
 mode: smoke
 seed: 0
-dataset_id: SYN-SCALE-01
+dataset_ids: [SYN-SCALE-01, ZINC-250K-01]
 factors:
   node_count: [10, 100, 1000]
   density: [sparse, medium, dense]
@@ -12,4 +13,19 @@ measurements:
   - peak_memory_bytes
   - interpretation_node_count
   - interpretation_edge_count
+natural_dataset:
+  dataset_id: ZINC-250K-01
+  loader: abstractgraph_graphicalizer.chem.load_zinc_graph_dataset
+  max_molecules: 10000
+  max_node_count: 40
+  sampling: stratified_by_node_count
+  subset_seed: 0
 notes: Replace categorical density with precise generation parameters.
+utility_source: E01-discrimination
+utility_reporting:
+  primary: factor_specific_discrimination
+  secondary: aggregate_discrimination
+controls: [atomic_components, lossless_feature_concatenation, graph_valued_composition]
+outputs:
+  tables: [tab02-expression-tradeoffs.tex]
+  figures: [fig04-pareto-frontiers.pdf]
