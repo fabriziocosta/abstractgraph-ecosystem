@@ -1,0 +1,59 @@
+\documentclass[11pt]{article}
+
+% Keep the source self-contained and based on packages available in TeX Live.
+% The standard article class is accepted by arXiv and avoids journal-specific
+% formatting constraints while the manuscript is under development.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+
+\graphicspath{{../figures/}}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=blue!60!black,
+  urlcolor=blue!60!black,
+  pdftitle={Abstract Graphs: A Compositional Representation of Graph Structure}
+}
+
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+
+\newcommand{\basegraph}{G}
+\newcommand{\interpgraph}{I}
+\newcommand{\abstractgraph}{A}
+\newcommand{\subgraphs}{\mathcal{S}}
+\newcommand{\mapping}{\mu}
+\newcommand{\provenance}{\pi}
+
+\title{Abstract Graphs: A Compositional Representation of Graph Structure}
+\author{Author names to be added}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\input{sections/00-abstract}
+\input{sections/01-introduction}
+\input{sections/02-related-work}
+\input{sections/03-formalism}
+\input{sections/04-operator-programs}
+\input{sections/05-experimental-protocol}
+\input{sections/06-results}
+\input{sections/07-discussion}
+\input{sections/08-conclusion}
+\input{sections/09-reproducibility}
+
+\bibliographystyle{plain}
+\bibliography{../../shared/references}
+
+\end{document}

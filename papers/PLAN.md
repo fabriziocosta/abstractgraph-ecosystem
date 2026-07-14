@@ -383,9 +383,9 @@ placing prior paper summaries side by side.
 ### Phase 0 — Programme setup
 
 - [ ] Create the notation guide and claim ledger.
-- [ ] Inventory implemented operators, identities, mappings, serialisation, and
+- [x] Inventory implemented operators, identities, mappings, serialisation, and
   provenance in `abstractgraph`.
-- [ ] Map every proposed Paper 1 claim to current implementation evidence or a
+- [x] Map every proposed Paper 1 claim to current implementation evidence or a
   missing capability.
 - [ ] Select synthetic generators and candidate real-world datasets.
 - [x] Establish experiment and manuscript directory conventions.

@@ -1,0 +1,24 @@
+\section{Abstract Graph Formalism}
+\label{sec:formalism}
+
+Let
+\begin{equation}
+  \basegraph=(V,E,X_V,X_E)
+\end{equation}
+be an attributed base graph and let \(\interpgraph=(V_I,E_I)\) be an
+interpretation graph. A mapping
+\begin{equation}
+  \mapping:V_I\rightarrow\subgraphs(\basegraph)
+\end{equation}
+associates every interpretation node with a permitted subgraph of
+\(\basegraph\). The working Abstract Graph representation is the triple
+\begin{equation}
+  \abstractgraph=(\basegraph,\interpgraph,\mapping).
+\end{equation}
+
+The complete formalism will specify the base-graph and attribute model,
+interpretation-node and interpretation-edge semantics, mapped-subgraph
+membership and overlap, structural identities and equivalence, and provenance.
+In particular, \(\subgraphs(\basegraph)\) denotes the permitted mapped-subgraph
+space; its induced-subgraph, connectivity, overlap, and attribute-preservation
+rules remain to be fixed in the formal specification.
