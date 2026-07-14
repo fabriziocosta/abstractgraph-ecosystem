@@ -170,9 +170,9 @@ assigns relevance rather than structural origin.
 \subsection{Operators and programs}
 
 \begin{definition}[Typed operator]
-An operator of arity (k) is a partial typed function
+An operator of arity $k$ is a typed function
 \begin{equation}
-  o:\prod_{j=1}^{k}\mathcal{A}_{C_{\mathrm{in},j}}\rightharpoonup
+  o:\prod_{j=1}^{k}\mathcal{A}_{C_{\mathrm{in},j}}\to
     \mathcal{A}_{C_{\mathrm{out}}},
 \end{equation}
 where \(\mathcal{A}_C\) is the set of valid Abstract Graphs satisfying
@@ -182,9 +182,8 @@ determinism, relation and provenance semantics, failure conditions, and
 complexity.
 \end{definition}
 
-The operator family is therefore closed over valid Abstract Graphs whenever
-the declared input contracts hold. For compatible unary operators, a
-sequential program is
+The operator family is closed over Abstract Graphs by construction. For
+type-compatible unary operators, a sequential program is
 \begin{equation}
   P=o_k\circ\cdots\circ o_1,
   \qquad P(A)=o_k\bigl(\cdots o_2(o_1(A))\cdots\bigr).

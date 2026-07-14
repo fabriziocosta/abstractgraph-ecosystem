@@ -195,10 +195,10 @@ attribution assigns model-derived relevance and may be uncertain or unstable.
 
 ## Operators and programs
 
-An operator of arity (k) is a partial, typed function
+An operator of arity $k$ is a typed function
 
 \[
-o:\prod_{j=1}^{k}\mathcal{A}_{C_{\mathrm{in},j}}\rightharpoonup
+o:\prod_{j=1}^{k}\mathcal{A}_{C_{\mathrm{in},j}}\to
   \mathcal{A}_{C_{\mathrm{out}}},
 \]
 
@@ -214,9 +214,8 @@ contract \(C\). A contract declares:
 - failure conditions; and
 - time and memory complexity.
 
-Thus the operator family is closed over valid Abstract Graphs: whenever the
-input contracts hold, an operator returns another Abstract Graph. For
-compatible unary operators, sequential composition is
+Thus the operator family is closed over Abstract Graphs by construction. For
+type-compatible unary operators, sequential composition is
 
 \[
 P=o_k\circ\cdots\circ o_1,

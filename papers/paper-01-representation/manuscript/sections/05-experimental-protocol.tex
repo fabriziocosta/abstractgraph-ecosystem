@@ -1,6 +1,131 @@
-\section{Experimental Protocol}
+\section{Evaluating Structural Discrimination}
 \label{sec:experimental-protocol}
 
-The evaluation will define research questions and hypotheses before reporting
-results. It will cover synthetic and real graph families, relevant baselines,
-metrics and statistical procedures, and compute and reproducibility controls.
+No single accuracy score can answer this question. A representation may
+distinguish two graphs even when a chosen classifier cannot exploit the
+difference; conversely, a classifier may succeed by using graph size rather
+than the intended structure. We therefore separate three questions: does the
+representation change, can a simple model use the change, and what does the
+change cost?
+
+\subsection{Node and Graph Feature Construction}
+
+An operator expression still has to become a numerical representation before a
+predictive model can use it. For expression $P$, identity width $b$, and
+diagnostic model $f$, this proceeds as
+\begin{equation}
+ G\xrightarrow{P}A_P(G)\xrightarrow{v_b}x_{P,b}(G)
+ \xrightarrow{f}\widehat{y}.
+\end{equation}
+The native representation is node-level. For base node $v$ and feature
+bucket $j$, let
+\begin{equation}
+ Z_{P,b}(G)_{v,j}=\sum_{u\in V_I}
+ \mathbf{1}[v\in V_{\mu(u)}]
+ \mathbf{1}[\phi_b(\mu(u))=j]a(u).
+\end{equation}
+A row records the interpreted structures in which a node occurs. Graph-level
+features are obtained by sum pooling,
+\begin{equation}
+ x_{P,b}(G)=\sum_{v\in V}Z_{P,b}(G)_{v,:}.
+\end{equation}
+This creates an exact node-to-graph consistency relation, but it is not always
+a raw occurrence histogram. With unit contributions,
+\begin{equation}
+ x_{P,b,j}(G)=\sum_{u\in V_I}|V_{\mu(u)}|
+ \mathbf{1}[\phi_b(\mu(u))=j],
+\end{equation}
+so pooling counts node--structure incidences and weights an occurrence by its
+mapped-subgraph size. It equals the raw occurrence count if mapped components
+are singletons or if $a(u)=1/|V_{\mu(u)}|$. We therefore compare raw
+occurrences with incidence pooling.
+
+Columns zero and one are reserved:
+\begin{equation}
+ Z_{v,0}=1,\qquad Z_{v,1}=\deg_G(v).
+\end{equation}
+After pooling they equal $|V|$ and $2|E|$, respectively, for undirected
+graphs and for directed total degree (in-degree plus out-degree). These
+features can create size shortcuts. All controlled results are therefore
+reported with and without them, and topology-focused pairs are matched on
+$|V|$ and $|E|$.
+
+\subsection{Intrinsic Discrimination and Predictive Accessibility}
+
+We first ask whether two graphs receive different signatures, without fitting
+a model. For verified non-equivalent pairs \(\mathcal{Q}\), intrinsic
+discrimination is
+\begin{equation}
+ D_{\mathrm{int}}(P,b)=\frac{1}{|\mathcal{Q}|}
+ \sum_{(G,H)\in\mathcal{Q}}
+ \mathbf{1}[\Sigma_{P,b}(G)\ne\Sigma_{P,b}(H)].
+\end{equation}
+Results are stratified by the changed factor---including cycles, paths, rays,
+attachment patterns, and labels---rather than reduced to one score.
+
+Different signatures do not guarantee that a task-relevant distinction is
+easy to recover. Simple supervised models test accessibility rather than state-of-the-art
+prediction: logistic or multinomial logistic regression for categories, ridge
+regression for counts, and a linear SVM as a margin-based sensitivity analysis.
+A random forest is a secondary nonlinear probe. If signatures differ but only
+the forest succeeds, information may require nonlinear interactions. If both
+the signatures and probes agree, the distinction between representational
+collapse and model failure is explicit. Feature vocabularies are fitted on
+training data only.
+
+\subsection{Controlled Structural Contrasts and Baselines}
+
+To know why a representation succeeds, we need graph pairs whose relevant
+difference is known. The primary synthetic family composes cycles, paths, and star-like rays while
+recording its generating parameters. Factors include cycle count and length,
+path length, ray count and length, attachment arrangement, expression depth,
+and node- and edge-label alphabets. Each graph is paired with identifier
+permutations that must remain equivalent and with single-factor interventions
+that must first be verified as non-isomorphic under the declared attributes.
+Hard pairs additionally match node count, edge count, degree distribution,
+density, and label histogram. Candidate real-world datasets complement these
+controlled tests but do not replace them.
+
+Controlled examples are useful only if the comparison methods are credible.
+Node, edge, path, cycle, graphlet, WL, and NSPDK representations are evaluated
+as expressions in the same algebra. For each method we separate decomposition,
+component identity, and aggregation. Claimed baseline equivalence is checked
+against an independent implementation using feature multiplicities,
+graph-pair decisions, and kernel or vector values where applicable. Composite
+expressions then test, for example, cycle features combined with WL or path
+features combined with pairs of neighborhoods.
+
+\subsection{Separating Structural Collapse from Hash Collisions}
+
+Two distinct structures can disappear for different reasons. An operator may
+never expose their difference, or a later identity map may send both to the
+same bucket. With $b=\texttt{nbits}$, structural hashes occupy $B=2^b-2$ buckets because
+the first two columns are reserved. We distinguish four phenomena: operator
+collapse, certificate collapse, bounded-hash collision, and a collision that
+is statistically irrelevant to a task. Against a collision-free certificate
+registry, we report distinct certificates, occupied buckets, colliding pairs,
+frequency-weighted contamination, predictive changes, memory, and provenance
+ambiguity over several values of $b$.
+
+If certificate frequencies $p_i$ are heavy-tailed, the collision mass
+\begin{equation}
+ C_{\mathrm{mass}}(b)=\sum_{i<j}p_i p_j
+ \mathbf{1}[h_b(c_i)=h_b(c_j)]
+\end{equation}
+may remain small even when raw collision counts are large. For a frequent
+identity $i$, expected relative contamination is approximately
+$ (1-p_i)/(Bp_i) $. This motivates the hypothesis that many collisions pair
+rare tail identities with more common ones and have limited aggregate effect;
+it does not assume that rare features are unimportant or that interpretability
+survives the collision.
+
+\subsection{Discrimination--Complexity Trade-offs}
+
+An expression that distinguishes more pairs is not automatically preferable if
+the gain requires prohibitive time or memory. Every configuration records wall time, peak memory, number of interpretation
+nodes and edges, sparse nonzeros, dimensionality, serialized size, and failure
+boundaries. We report separate discrimination--runtime,
+discrimination--memory, and discrimination--size Pareto frontiers. Raw costs
+remain primary. Dominated and negative configurations are retained because
+closure permits an expression to be valid even when its added computation
+provides no useful discrimination.

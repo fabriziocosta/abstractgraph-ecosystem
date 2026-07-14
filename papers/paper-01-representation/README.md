@@ -73,12 +73,10 @@ Let \(\mathcal{AG}\) denote the space of valid Abstract Graphs and let
 operator of arity \(k\) has the form
 
 \[
-\omega: \mathcal{AG}^{k} \rightharpoonup \mathcal{AG}.
+\omega: \mathcal{AG}^{k} \to \mathcal{AG}.
 \]
 
-The arrow may be partial because an operator can impose input contracts, such
-as compatible base graphs or required attributes. Closure means that whenever
-those contracts hold, the output is again a valid AG. Operator expressions are
+Every operator returns a valid AG by construction. Operator expressions are
 terms generated from \(\Omega\); sequential composition, addition, products,
 branches, and iteration are expression constructors rather than exits into
 incompatible intermediate representations.
