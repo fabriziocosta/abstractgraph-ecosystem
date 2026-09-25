@@ -30,21 +30,27 @@ git submodule update --init --recursive
 
 ## Dependency Direction
 
-- `abstractgraph`
+- `abstractgraph` has no sibling-package runtime dependency
 - `abstractgraph-graphicalizer` depends on no sibling repositories
 - `abstractgraph-ml` depends on `abstractgraph`
 - `abstractgraph-generative` depends on `abstractgraph` and `abstractgraph-ml`
 
 ## Editable Install Order
 
-From this superproject checkout:
+For a normal install in a virtual environment, install packages in dependency
+order and let `pip` resolve their declared dependencies:
 
 ```bash
-python -m pip install -e repos/abstractgraph --no-deps
-python -m pip install -e repos/abstractgraph-graphicalizer --no-deps
-python -m pip install -e repos/abstractgraph-ml --no-deps
-python -m pip install -e repos/abstractgraph-generative --no-deps
+python -m pip install -e repos/abstractgraph
+python -m pip install -e repos/abstractgraph-graphicalizer
+python -m pip install -e repos/abstractgraph-ml
+python -m pip install -e repos/abstractgraph-generative
 ```
+
+The graphicalizer's default dependencies include PyTorch. Its chemistry and
+text integrations use optional `chem` and `text` extras. For a shared
+environment whose dependencies are already installed, package-specific guides
+also show `--no-deps` commands.
 
 ## Submodule Pinning
 
@@ -103,6 +109,19 @@ When one logical change spans multiple child repositories:
 
 This keeps each package independently usable while still allowing this
 superproject to pin compatible cross-repository states.
+
+The superproject currently pins the four repositories listed above. Companion
+repositories mentioned in package guides may be separate projects and are not
+automatically cloned or version-pinned by this checkout.
+
+## Documentation Links
+
+Check relative Markdown links from the superproject root before committing
+documentation changes:
+
+```bash
+python scripts/check_docs_links.py
+```
 
 ## Create the Superproject
 

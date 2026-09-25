@@ -16,6 +16,46 @@ models can guide generation or repair.
 For repository layout, submodule handling, editable installs, and sync rules,
 see [docs/ORGANIZATION.md](docs/ORGANIZATION.md).
 
+## Quickstart
+
+After cloning with submodules, create a Python 3.10+ environment and install
+the core and graphicalizer packages into it:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -e repos/abstractgraph
+python -m pip install -e repos/abstractgraph-graphicalizer
+```
+
+The graphicalizer's default dependencies include PyTorch for its attention
+converters. This install is therefore larger than the core package alone. The
+`chem` and `text` extras are optional; see the graphicalizer's
+[installation guide](repos/abstractgraph-graphicalizer/docs/ORGANIZATION.md)
+for details.
+
+This example turns a string into a path graph, applies the core node
+decomposition, and creates one feature row per input character:
+
+```python
+from abstractgraph.graphs import graph_to_abstract_graph
+from abstractgraph.operators import node
+from abstractgraph.vectorize import vectorize
+from abstractgraph_graphicalizer import string_to_graph
+
+base_graph = string_to_graph("graph")
+abstract_graph = graph_to_abstract_graph(
+    base_graph,
+    decomposition_function=node(),
+    nbits=8,
+)
+features = vectorize(abstract_graph, nbits=8)
+print(features.shape)  # (5, 256)
+```
+
+To use the learning and generative layers, install their packages after the
+core package as described in [the install guide](docs/ORGANIZATION.md).
+
 ## Repository Roles
 
 ### [abstractgraph-graphicalizer](repos/abstractgraph-graphicalizer/README.md)
@@ -142,3 +182,7 @@ In practice, `abstractgraph-graphicalizer` prepares inputs, `abstractgraph`
 defines what can be done with those inputs as graphs, `abstractgraph-ml`
 evaluates and learns from the resulting structures, and
 `abstractgraph-generative` uses those semantics to create or improve structures.
+
+The superproject pins the four repositories listed above. Some companion
+projects mentioned in package-specific documentation are separate checkouts
+and are not included or pinned here.
