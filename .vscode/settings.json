@@ -1,0 +1,10 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/repos/abstractgraph-generative/.venv/bin/python",
+  "python.analysis.extraPaths": [
+    "repos/abstractgraph/src",
+    "repos/abstractgraph-ml/src",
+    "repos/abstractgraph-generative/src",
+    "repos/abstractgraph-graphicalizer/src",
+    "../NSPPK/src"
+  ]
+}
