@@ -16,6 +16,11 @@ models can guide generation or repair.
 For repository layout, submodule handling, editable installs, and sync rules,
 see [docs/ORGANIZATION.md](docs/ORGANIZATION.md).
 
+## Zenodo
+
+Version 0.1.0: [10.5281/zenodo.24367247](https://doi.org/10.5281/zenodo.24367247)  
+All versions: [10.5281/zenodo.24367246](https://doi.org/10.5281/zenodo.24367246)
+
 ## Quickstart
 
 After cloning with submodules, create a Python 3.10+ environment and install
