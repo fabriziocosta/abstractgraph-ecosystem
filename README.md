@@ -18,8 +18,8 @@ see [docs/ORGANIZATION.md](docs/ORGANIZATION.md).
 
 ## Zenodo
 
-Version 0.1.0: [10.5281/zenodo.24367247](https://doi.org/10.5281/zenodo.24367247)  
-All versions: [10.5281/zenodo.24367246](https://doi.org/10.5281/zenodo.24367246)
+[![Version DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24367247.svg)](https://doi.org/10.5281/zenodo.24367247)
+[![All versions DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24367246.svg)](https://doi.org/10.5281/zenodo.24367246)
 
 ## Quickstart
 
