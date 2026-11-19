@@ -1,3 +1,5 @@
+[![All versions DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24367246.svg)](https://doi.org/10.5281/zenodo.24367246)
+
 <p align="center">
   <img src="docs/assets/AG_Logo.png" alt="AbstractGraph logo" width="220">
 </p>
@@ -15,11 +17,6 @@ models can guide generation or repair.
 
 For repository layout, submodule handling, editable installs, and sync rules,
 see [docs/ORGANIZATION.md](docs/ORGANIZATION.md).
-
-## Zenodo
-
-[![Version DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24367247.svg)](https://doi.org/10.5281/zenodo.24367247)
-[![All versions DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24367246.svg)](https://doi.org/10.5281/zenodo.24367246)
 
 ## Quickstart
 
